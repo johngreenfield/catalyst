@@ -1,5 +1,4 @@
-# Catalyst
-## Your Executive Function Assistant Powered by Gemini
+# Catalyst: Your Executive Function Assistant Powered by Gemini
 Catalyst is a robust executive function assistant designed to help you effortlessly kickstart tasks, break through mental blocks, and boost your efficiency. Leveraging the cutting-edge capabilities of Google's Gemini API, Catalyst provides intuitive, AI-powered functionalities that support neurodivergent individuals in navigating their daily responsibilities and organizing their thoughts.
 
 ## Project Overview & Core Functionalities
@@ -15,6 +14,8 @@ Catalyst provides the following core functionalities:
 
 - Compiler (Brain Dump Organizer): Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
 
+- Meal Muse (Recipe Suggestion): Struggling with what to cook using the ingredients you already have? Meal Muse helps you make the most of your kitchen. Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a trip to the store.
+
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
 
 ## Key Design Principles
@@ -29,17 +30,17 @@ From its inception, Catalyst was developed with several core principles in mind,
 - Robust Error Handling: Comprehensive error handling is integrated throughout both the frontend and backend, providing clear user feedback and ensuring a smooth, reliable experience.
 
 ## To-Do List
-[ ] Set up the GitHub repository for the Catalyst project.
+[x] Set up the GitHub repository for the Catalyst project.
 
-[ ] Initialize the local Git repository and connect it to GitHub.
+[x] Initialize the local Git repository and connect it to GitHub.
 
-[ ] Create the basic project structure (frontend and backend folders).
+[x] Create the basic project structure (frontend and backend folders).
 
 [ ] Obtain a Gemini API key from Google AI Studio.
 
 [ ] Implement a basic HTML/CSS/JavaScript frontend.
 
-[ ] Develop the backend (e.g., in PHP or Python) to securely call the Gemini API.
+[ ] Develop the backend to securely call the Gemini API.
 
 [ ] Integrate the frontend with the backend using fetch or XMLHttpRequest.
 
@@ -52,6 +53,8 @@ From its inception, Catalyst was developed with several core principles in mind,
 [ ] Implement the "Formalizer" (Text Rephrasing/Style Adjustment) feature.
 
 [ ] Implement the "Compiler" (Brain Dump Organizer) feature.
+
+[ ] Implement the "Meal Muse" (Recipe Suggestions) feature.
 
 [ ] Add comprehensive error handling.
 
