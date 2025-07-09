@@ -36,21 +36,23 @@ From its inception, Catalyst was developed with several core principles in mind,
 
 [x] Create the basic project structure (frontend and backend folders).
 
-[ ] Obtain a Gemini API key from Google AI Studio.
+[X] Obtain a Gemini API key from Google AI Studio.
 
-[ ] Implement a basic HTML/CSS/JavaScript frontend.
+[X] Implement a basic HTML/CSS/JavaScript frontend.
 
-[ ] Develop the backend to securely call the Gemini API.
+[X] Develop the backend to securely call the Gemini API.
 
-[ ] Integrate the frontend with the backend using fetch or XMLHttpRequest.
+[X] Integrate the frontend with the backend using fetch or XMLHttpRequest.
 
-[ ] Implement the "Magic To-Do" (Task Breakdown) feature.
+[X] Implement the "Magic To-Do" (Task Breakdown) feature.
 
 [ ] Test the Task Breakdown feature thoroughly.
 
-[ ] Implement the "Judge" (Tone Analysis) feature.
+[X] Implement the "Judge" (Tone Analysis) feature.
 
-[ ] Implement the "Formalizer" (Text Rephrasing/Style Adjustment) feature.
+[X] Implement the "Formalizer" (Text Rephrasing/Style Adjustment) feature.
+
+[ ] Test the Tone Analysis and Formalizer feature thoroughly.
 
 [ ] Implement the "Compiler" (Brain Dump Organizer) feature.
 
