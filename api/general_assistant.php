@@ -1,10 +1,11 @@
 <?php
-// api/analyze_tone.php
+// api/general_assistant.php
 header('Content-Type: application/json');
 include_once 'gemini_helper.php';
 
 try {
     $rawInput = file_get_contents('php://input');
+
     $input = json_decode($rawInput, true);
 
     if (json_last_error() !== JSON_ERROR_NONE) {
@@ -18,7 +19,7 @@ try {
 
     // Call the centralized API function
     $responseData = callGeminiApi($userPrompt);
-
+    
     $generatedText = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Could not extract a valid response from the API result.';
 
     echo json_encode(['result' => $generatedText]);

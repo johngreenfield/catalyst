@@ -1,0 +1,9 @@
+/* Simple styling for the result container */
+#result-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    min-height: 100px;
+    white-space: pre-wrap; /* Allows text to wrap and preserves line breaks */
+}

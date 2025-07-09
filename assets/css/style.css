@@ -1,0 +1,19 @@
+/* Custom styles for Catalyst */
+#result-container {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: .25rem;
+    padding: 1rem;
+    min-height: 100px;
+    white-space: pre-wrap;
+}
+/* Improve the result container in dark mode */
+[data-bs-theme="dark"] #result-container {
+    background-color: #2b3035; /* A slightly lighter dark shade for contrast */
+    border-color: #495057;
+}
+
+/* Ensure the toggle label is visible in dark mode */
+[data-bs-theme="dark"] .navbar .form-check-label {
+    color: rgba(255, 255, 255, 0.65);
+}

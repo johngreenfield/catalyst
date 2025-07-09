@@ -1,7 +1,7 @@
 <?php
 // api/breakdown_task.php
 header('Content-Type: application/json');
-include_once 'gemini_helper.php'; // Use the new helper
+include_once 'gemini_helper.php';
 
 try {
     $rawInput = file_get_contents('php://input');

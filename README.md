@@ -30,11 +30,11 @@ From its inception, Catalyst was developed with several core principles in mind,
 - Robust Error Handling: Comprehensive error handling is integrated throughout both the frontend and backend, providing clear user feedback and ensuring a smooth, reliable experience.
 
 ## To-Do List
-[x] Set up the GitHub repository for the Catalyst project.
+[X] Set up the GitHub repository for the Catalyst project.
 
-[x] Initialize the local Git repository and connect it to GitHub.
+[X] Initialize the local Git repository and connect it to GitHub.
 
-[x] Create the basic project structure (frontend and backend folders).
+[X] Create the basic project structure (frontend and backend folders).
 
 [X] Obtain a Gemini API key from Google AI Studio.
 

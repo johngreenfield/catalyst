@@ -3,11 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const toolSelector = document.getElementById('tool-selector');
     const formalizerOptions = document.getElementById('formalizer-options');
+    const themeToggle = document.getElementById('theme-toggle');
 
     if (submitButton) {
         submitButton.addEventListener('click', () => {
             const selectedTool = toolSelector.value;
-            processText(selectedTool);
+            processPrompt(selectedTool);
+            document.getElementById('result-container').innerText = 'Processing prompt...';
         });
     }
 
@@ -17,10 +19,44 @@ document.addEventListener('DOMContentLoaded', () => {
             formalizerOptions.style.display = (toolSelector.value === 'formalizer') ? 'block' : 'none';
         });
     }
+
+    // --- Theme Toggler Logic ---
+    const htmlElement = document.documentElement;
+
+    const setTheme = (theme) => {
+        htmlElement.setAttribute('data-bs-theme', theme);
+        localStorage.setItem('theme', theme);
+        if (themeToggle) {
+            themeToggle.checked = theme === 'dark';
+        }
+    };
+
+    if (themeToggle) {
+        themeToggle.addEventListener('change', () => {
+            const newTheme = themeToggle.checked ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+    }
+
+    // Set initial theme on page load
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    setTheme(initialTheme);
+
+    // Add a listener for real-time changes in the system's color scheme preference
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+        // Only update the theme if the user hasn't made an explicit choice on the site
+        if (!localStorage.getItem('theme')) {
+            const newColorScheme = event.matches ? "dark" : "light";
+            setTheme(newColorScheme);
+        }
+    });
 });
 
-async function processText(tool) {
-    console.log("Processing...");
+async function processPrompt(tool) {
+    console.log("Processing prompt...");
+
     const inputText = document.getElementById('prompt-input').value;
     if (!inputText) {
         alert('Please enter some text.');
@@ -31,6 +67,10 @@ async function processText(tool) {
     let prompt = '';
 
     switch (tool) {
+        case 'general_assistant':
+            endpoint = '/api/general_assistant.php';
+            prompt = `You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question: "${inputText}"`;
+            break;
         case 'task_breakdown':
             endpoint = '/api/breakdown_task.php';
             prompt = `Break down the following task into small, manageable steps, with time estimates in minutes: "${inputText}"`;
@@ -44,14 +84,14 @@ async function processText(tool) {
             endpoint = '/api/formalize_text.php';
             prompt = `Rephrase the following text to be ${formality}: "${inputText}"`;
             break;
-        // Add more cases for other tools
+        // Todo: Add more cases for other tools
         default:
             alert('Unknown tool.');
             return;
     }
 
     try {
-        // Show spinner, disable button
+        // Todo: Show spinner, disable button
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {

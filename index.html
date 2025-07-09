@@ -1,27 +1,72 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
     <title>Catalyst - Your Executive Function Assistant</title>
-    <style>
-        /* Simple styling for the result container */
-        #result-container {
-            background-color: #f8f9fa;
-            border: 1px solid #dee2e6;
-            border-radius: .25rem;
-            padding: 1rem;
-            min-height: 100px;
-            white-space: pre-wrap; /* Allows text to wrap and preserves line breaks */
-        }
-    </style>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="Catalyst - Your Executive Function Assistant" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Optional tags and SEO -->
+    <meta name="author" content="John Greenfield" />
+    <meta name="description" content="Your AI-powered executive function assistant. Simplify complex tasks, organize thoughts, understand tone & enhance productivity for neurodivergent minds." />
+    <meta name="keywords" content="neurodivergent support, executive function, ADHD tools, autism assistant, task management, AI assistant, Gemini app, productivity app, task breakdown, text simplification, tone analysis, organization tools, assistive technology, web app, cognitive aid" /> <!--Depreciated-->
+    <meta name="robots" content="index,follow" />
+    <meta name="language" content="en-gb" />
+    <meta name="rating" content="general" />
+    <meta name="format-detection" content="telephone=yes" />
+    <meta name="HandheldFriendly" content="true" /> 
+    <meta name="theme-color" content="#222222" />
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Catalyst">
+    <meta name="msapplication-navbutton-color" content="#222222">
+    <meta name="msapplication-starturl" content="/">
+
+    <!-- Icons, Stylesheets, Libraries and JS -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
 </head>
+
 <body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="assets/img/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                Catalyst
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav"> 
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Help</a>
+                    </li>
+                </ul>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="theme-toggle">
+                    <label class="form-check-label" for="theme-toggle">Dark Mode</label>
+                </div>
+            </div>
+        </div>
+    </nav>
 
     <div class="container my-5">
         <div class="text-center mb-4">
@@ -32,7 +77,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="mb-3">
-                    <label for="prompt-input" class="form-label">Your Text:</label>
+                    <label for="prompt-input" class="form-label">Your Prompt:</label>
                     <textarea class="form-control" id="prompt-input" rows="4" placeholder="e.g., 'Write an email to my boss asking for a raise'"></textarea>
                 </div>
 
@@ -42,7 +87,8 @@
                     </div>
                     <div class="col-auto">
                         <select class="form-select" id="tool-selector">
-                            <option value="task_breakdown" selected>Task Breakdown</option>
+                            <option value="general_assistant" selected>General Assistant</option>
+                            <option value="task_breakdown">Task Breakdown</option>
                             <option value="tone_analysis">Tone Analysis</option>
                             <option value="formalizer">Formalizer</option>
                         </select>
@@ -69,7 +115,7 @@
         </div>
     </div>
 
-    <!-- Your custom JavaScript file for API calls -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
     <script src="assets/js/app.js"></script>
 </body>
 </html>
