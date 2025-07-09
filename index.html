@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <title>Catalyst - Your Executive Function Assistant</title>
+    <style>
+        /* Simple styling for the result container */
+        #result-container {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: .25rem;
+            padding: 1rem;
+            min-height: 100px;
+            white-space: pre-wrap; /* Allows text to wrap and preserves line breaks */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container my-5">
+        <div class="text-center mb-4">
+            <h1>Catalyst</h1>
+            <p class="lead">Your Executive Function Assistant. Enter a prompt below.</p>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="prompt-input" class="form-label">Your Text:</label>
+                    <textarea class="form-control" id="prompt-input" rows="4" placeholder="e.g., 'Write an email to my boss asking for a raise'"></textarea>
+                </div>
+
+                <div class="row g-3 align-items-center mb-3">
+                    <div class="col-auto">
+                        <label for="tool-selector" class="col-form-label">Select Tool:</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-select" id="tool-selector">
+                            <option value="task_breakdown" selected>Task Breakdown</option>
+                            <option value="tone_analysis">Tone Analysis</option>
+                            <option value="formalizer">Formalizer</option>
+                        </select>
+                    </div>
+                    <div class="col-auto" id="formalizer-options" style="display: none;">
+                        <select class="form-select" id="formalityLevel">
+                            <option value="more formal" selected>More Formal</option>
+                            <option value="more casual">More Casual</option>
+                            <option value="like a pirate">Like a Pirate</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="submit-button" class="btn btn-primary">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    Process Text
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <h3>Result:</h3>
+            <div id="result-container">Waiting for prompt...</div>
+        </div>
+    </div>
+
+    <!-- Your custom JavaScript file for API calls -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>

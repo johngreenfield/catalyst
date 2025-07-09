@@ -1,5 +1,5 @@
 <?php
-// api/breakdown_task.php
+// api/analyze_tone.php
 header('Content-Type: application/json');
 include_once 'gemini_helper.php'; // Use the new helper
 

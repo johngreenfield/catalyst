@@ -1,5 +1,5 @@
 <?php
-// api/breakdown_task.php
+// api/formalize_text.php
 header('Content-Type: application/json');
 include_once 'gemini_helper.php'; // Use the new helper
 
