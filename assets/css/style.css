@@ -13,6 +13,11 @@
     border-color: #495057;
 }
 
+[data-bs-theme="light"] .navbar {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+
 /* Ensure the toggle label is visible in dark mode */
 [data-bs-theme="dark"] .navbar .form-check-label {
     color: rgba(255, 255, 255, 0.65);

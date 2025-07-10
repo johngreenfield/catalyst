@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.addEventListener('click', () => {
             const selectedTool = toolSelector.value;
             processPrompt(selectedTool);
-            document.getElementById('result-container').innerText = 'Processing prompt...';
         });
     }
 
@@ -62,6 +61,8 @@ async function processPrompt(tool) {
         alert('Please enter some text.');
         return;
     }
+
+    document.getElementById('result-container').innerText = 'Processing prompt...';
 
     let endpoint = '';
     let prompt = '';
