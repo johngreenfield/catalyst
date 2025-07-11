@@ -36,7 +36,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-
 </head>
 
 <body>
@@ -47,7 +46,9 @@
                 Catalyst
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                <span class="toggler-icon top-bar"></span>
+                <span class="toggler-icon middle-bar"></span>
+                <span class="toggler-icon bottom-bar"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav"> 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -61,11 +62,12 @@
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                 </ul>
-                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center">
-                    <a href="#" class="nav-link me-lg-2 mb-2 mb-lg-0" id="settings-button" aria-label="Settings" role="button">
+                <hr class="d-lg-none my-2">
+                <div class="d-flex flex-row justify-content-around justify-content-lg-end align-items-center w-100 w-lg-auto mt-lg-0">
+                    <a href="#" class="nav-link me-lg-2" id="settings-button" aria-label="Settings" data-bs-toggle="modal" data-bs-target="#settingsModal">
                         <i class="bi bi-gear fs-5"></i>
                     </a>
-                    <a href="#" class="nav-link me-lg-3 mb-2 mb-lg-0" id="help-button" aria-label="Help" role="button">
+                    <a href="#" class="nav-link me-lg-3" id="help-button" aria-label="Help" data-bs-toggle="modal" data-bs-target="#helpModal">
                         <i class="bi bi-question-circle fs-5"></i>
                     </a>
                     <div class="form-check form-switch">
@@ -100,6 +102,7 @@
                             <option value="task_breakdown">Task Breakdown</option>
                             <option value="tone_analysis">Tone Analysis</option>
                             <option value="formalizer">Formalizer</option>
+                            <option value="meal_muse">Meal Muse</option>
                         </select>
                     </div>
                     <div class="col-auto" id="formalizer-options" style="display: none;">
@@ -121,6 +124,52 @@
         <div class="mt-4">
             <h3>Result:</h3>
             <div id="result-container">Waiting for prompt...</div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="settingsModalLabel">Settings</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>This is where your application settings will go. You can add form fields, toggles, and other configuration options here.</p>
+                    <p>The modal is set to be large using the <code>.modal-lg</code> class and is responsive by default.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="helpModalLabel">Help & Information</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h5>Welcome to Catalyst!</h5>
+                    <p>This application is designed to assist with executive function challenges. Here's a quick guide to the tools:</p>
+                    <ul>
+                        <li><strong>General Assistant:</strong> Ask any question for a helpful response.</li>
+                        <li><strong>Task Breakdown:</strong> Enter a large task to get smaller, manageable steps.</li>
+                        <li><strong>Tone Analysis:</strong> Understand the emotional tone of your text.</li>
+                        <li><strong>Formalizer:</strong> Rewrite text to be more formal or casual.</li>
+                        <li><strong>Meal Muse:</strong> List ingredients to get a recipe suggestion.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
+                </div>
+            </div>
         </div>
     </div>
 

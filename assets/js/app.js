@@ -85,6 +85,10 @@ async function processPrompt(tool) {
             endpoint = '/api/formalize_text.php';
             prompt = `Rephrase the following text to be ${formality}: "${inputText}"`;
             break;
+        case 'meal_muse':
+            endpoint = '/api/meal_muse.php';
+            prompt = `Take the following list of ingredients and suggest a recipie that uses these ingredients: "${inputText}"`;
+            break;
         // Todo: Add more cases for other tools
         default:
             alert('Unknown tool.');

@@ -12,7 +12,7 @@
     background-color: #2b3035; /* A slightly lighter dark shade for contrast */
     border-color: #495057;
 }
-
+/* Ensures the navbar background color matches the light theme, overriding the default transparent/dark appearance. */
 [data-bs-theme="light"] .navbar {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
@@ -21,4 +21,41 @@
 /* Ensure the toggle label is visible in dark mode */
 [data-bs-theme="dark"] .navbar .form-check-label {
     color: rgba(255, 255, 255, 0.65);
+}
+
+/* Animated Navbar Toggler */
+.navbar-toggler {
+    border: none;
+    background: transparent !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+.toggler-icon {
+    width: 25px;
+    height: 2px;
+    background-color: currentColor;
+    display: block;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.toggler-icon+.toggler-icon {
+    margin-top: 5px;
+}
+
+.navbar-toggler[aria-expanded="true"] .top-bar {
+    transform: rotate(45deg);
+    top: 7px;
+}
+
+.navbar-toggler[aria-expanded="true"] .middle-bar {
+    opacity: 0;
+}
+
+.navbar-toggler[aria-expanded="true"] .bottom-bar {
+    transform: rotate(-45deg);
+    top: -7px;
 }
