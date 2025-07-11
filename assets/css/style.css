@@ -1,4 +1,9 @@
 /* Custom styles for Catalyst */
+html,
+body {
+    height: 100%;
+}
+
 #result-container {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
