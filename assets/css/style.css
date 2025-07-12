@@ -4,6 +4,7 @@ body {
     height: 100%;
 }
 
+/* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -12,11 +13,13 @@ body {
     min-height: 100px;
     white-space: pre-wrap;
 }
+
 /* Improve the result container in dark mode */
 [data-bs-theme="dark"] #result-container {
     background-color: #2b3035; /* A slightly lighter dark shade for contrast */
     border-color: #495057;
 }
+
 /* Ensures the navbar background color matches the light theme, overriding the default transparent/dark appearance. */
 [data-bs-theme="light"] .navbar {
     --bs-bg-opacity: 1;

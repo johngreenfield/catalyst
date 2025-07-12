@@ -1,4 +1,9 @@
-// Catalyst JS API Calls
+// Catalyst App Client Scripts
+
+/**
+ * Main entry point for the application's client-side logic.
+ * This function sets up all initial event listeners and page state once the DOM is fully loaded.
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const toolSelector = document.getElementById('tool-selector');
@@ -14,14 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (toolSelector) {
         toolSelector.addEventListener('change', () => {
-            // Show the formality level dropdown only when 'Formalizer' is selected
+            // Toggles the visibility of the formality level dropdown based on the selected tool.
             formalizerOptions.style.display = (toolSelector.value === 'formalizer') ? 'block' : 'none';
         });
     }
 
     // --- Theme Toggler Logic ---
     const htmlElement = document.documentElement;
-
+    
+    /**
+     * Sets the application's color theme.
+     * It updates the `data-bs-theme` attribute on the <html> element,
+     * saves the preference to localStorage, and syncs the theme toggle switch.
+     * @param {string} theme The theme to set, either 'dark' or 'light'.
+     */
     const setTheme = (theme) => {
         htmlElement.setAttribute('data-bs-theme', theme);
         localStorage.setItem('theme', theme);
@@ -37,15 +48,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Set initial theme on page load
+    // Set initial theme on page load, respecting user's system preference as a fallback.
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
     setTheme(initialTheme);
 
-    // Add a listener for real-time changes in the system's color scheme preference
+    // Add a listener for real-time changes in the system's color scheme preference.
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-        // Only update the theme if the user hasn't made an explicit choice on the site
+        // Only update the theme if the user hasn't already made an explicit choice on the site.
         if (!localStorage.getItem('theme')) {
             const newColorScheme = event.matches ? "dark" : "light";
             setTheme(newColorScheme);
@@ -53,6 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Catalyst JS API Calls
+
+/**
+ * Main function to handle the API request based on the selected tool.
+ * It constructs the appropriate prompt, sends it to the backend endpoint,
+ * and displays the result or an error message.
+ * @param {string} tool The identifier for the selected tool (e.g., 'task_breakdown').
+ */
 async function processPrompt(tool) {
     console.log("Processing prompt...");
 
@@ -67,6 +86,7 @@ async function processPrompt(tool) {
     let endpoint = '';
     let prompt = '';
 
+    // Construct the API endpoint and prompt based on the selected tool.
     switch (tool) {
         case 'general_assistant':
             endpoint = '/api/general_assistant.php';
@@ -89,14 +109,14 @@ async function processPrompt(tool) {
             endpoint = '/api/meal_muse.php';
             prompt = `Take the following list of ingredients and suggest a recipie that uses these ingredients: "${inputText}"`;
             break;
-        // Todo: Add more cases for other tools
+        // TODO: Add more cases for other tools
         default:
             alert('Unknown tool.');
             return;
     }
 
     try {
-        // Todo: Show spinner, disable button
+        // TODO: Show spinner, disable button
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {

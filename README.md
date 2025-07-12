@@ -20,6 +20,8 @@ Catalyst is a web application that transforms how you approach complex tasks and
 
 Catalyst offers the following features:
 
+- General Assistant: Your go-to tool for quick questions and general support. Whether you need to draft a quick email, understand a concept, or just need a starting point for a thought, the General Assistant provides clear, helpful, and empathetic responses tailored to support neurodivergent ways of thinking.
+
 - Task Breakdown: Simply input an overwhelming task, and Catalyst instantly breaks it down into small, manageable, step-by-step instructions. It even provides realistic time estimates to help you plan effectively.
 
 - Tone Analysis: Concerned about how your written communication might land? Use the Tone Analysis feature to analyse the tone of your emails or messages. Catalyst helps you understand how your words are perceived and offers suggestions for clearer, more impactful communication.
