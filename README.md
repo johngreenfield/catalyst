@@ -20,19 +20,19 @@ Catalyst is a web application that transforms how you approach complex tasks and
 
 Catalyst offers the following features:
 
-- General Assistant: Your go-to tool for quick questions and general support. Whether you need to draft a quick email, understand a concept, or just need a starting point for a thought, the General Assistant provides clear, helpful, and empathetic responses tailored to support neurodivergent ways of thinking.
+- **General Assistant:** Your go-to tool for quick questions and general support. Whether you need to draft a quick email, understand a concept, or just need a starting point for a thought, the General Assistant provides clear, helpful, and empathetic responses tailored to support neurodivergent ways of thinking.
 
-- Task Breakdown: Simply input an overwhelming task, and Catalyst instantly breaks it down into small, manageable, step-by-step instructions. It even provides realistic time estimates to help you plan effectively.
+- **Task Breakdown:** Simply input an overwhelming task, and Catalyst instantly breaks it down into small, manageable, step-by-step instructions. It even provides realistic time estimates to help you plan effectively.
 
-- Tone Analysis: Concerned about how your written communication might land? Use the Tone Analysis feature to analyse the tone of your emails or messages. Catalyst helps you understand how your words are perceived and offers suggestions for clearer, more impactful communication.
+- **Tone Analysis:** Concerned about how your written communication might land? Use the Tone Analysis feature to analyse the tone of your emails or messages. Catalyst helps you understand how your words are perceived and offers suggestions for clearer, more impactful communication.
 
-- Formalizer (Text Rephrasing & Style Adjustment): Need to adjust the style of your writing? The Formalizer allows you to rephrase text based on your desired formality — whether you need it casual, professional, or highly formal.
+- **Formalizer (Text Rephrasing & Style Adjustment):** Need to adjust the style of your writing? The Formalizer allows you to rephrase text based on your desired formality — whether you need it casual, professional, or highly formal.
 
-- Meal Muse (Recipe Suggestion): Struggling with what to cook using the ingredients you already have? Meal Muse helps you make the most of your kitchen. Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a trip to the store.
+- **Meal Muse (Recipe Suggestion):** Struggling with what to cook using the ingredients you already have? Meal Muse helps you make the most of your kitchen. Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a trip to the store.
 
-- Brain Dump Organizer (Coming soon): Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
+- **Brain Dump Organizer (Coming soon):** Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
 
-- Playlist Generator (Coming soon): Generate a music playlist to match you mood or energy levels
+- **Playlist Generator (Coming soon):** Struggling to find the right soundtrack for focus, relaxation, or motivation? The Playlist Generator takes the guesswork out of choosing music. Simply describe your current mood, energy level, or the task you're working on, and Catalyst will curate a personalized playlist designed to help you get in the zone and stay there.
 
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
 
@@ -72,7 +72,7 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
 
 2.  **Configure Your API Key**
 
-    To use the application, you must provide your own Google Gemini API key.
+    To use the application, you must provide your own Google Gemini API key. You can obtain a free key from [Google AI Studio](https://aistudio.google.com/).
 
     - Inside the `api/` directory, create a new file named `config.php`.
     - Copy and paste the following code into `config.php`, replacing `'YOUR_GEMINI_API_KEY'` with your actual key:
