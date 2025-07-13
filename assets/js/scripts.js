@@ -190,24 +190,24 @@ async function processPrompt(tool) {
     // Construct the API endpoint and prompt based on the selected tool.
     switch (tool) {
         case 'general_assistant':
-            endpoint = '/api/general_assistant.php';
+            endpoint = '/api/gemini/general_assistant.php';
             prompt = `You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question: "${inputText}"`;
             break;
         case 'task_breakdown':
-            endpoint = '/api/breakdown_task.php';
+            endpoint = '/api/gemini/breakdown_task.php';
             prompt = `Break down the following task into small, manageable steps, with time estimates in minutes: "${inputText}"`;
             break;
         case 'tone_analysis':
-            endpoint = '/api/analyze_tone.php';
+            endpoint = '/api/gemini/analyze_tone.php';
             prompt = `Analyze the tone of the following text and suggest how it might be perceived: "${inputText}"`;
             break;
         case 'formalizer':
             const formality = document.getElementById('formalityLevel').value;
-            endpoint = '/api/formalize_text.php';
+            endpoint = '/api/gemini/formalize_text.php';
             prompt = `Rephrase the following text to be ${formality}: "${inputText}"`;
             break;
         case 'meal_muse':
-            endpoint = '/api/meal_muse.php';
+            endpoint = '/api/gemini/meal_muse.php';
             prompt = `Take the following list of ingredients and suggest a recipie that uses these ingredients: "${inputText}"`;
             break;
         default:

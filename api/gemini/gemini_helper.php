@@ -27,7 +27,7 @@ class GeminiApiException extends Exception {
  */
 function callGeminiApi($prompt) {
     // Ensure config is loaded. It's safe to include multiple times with _once.
-    include_once 'config.php';
+    include_once '../config.php';
 
     if (!defined('GEMINI_API_KEY') || empty(GEMINI_API_KEY) || !defined('GEMINI_API_URL')) {
         throw new Exception('API key or URL is not configured correctly in config.php.', 500);
