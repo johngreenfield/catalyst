@@ -6,6 +6,10 @@
  * For production, it's more secure to use environment variables.
  */
 
+// This is an example configuration file.
+// To use the application, copy this file to 'config.php' and fill in your actual API key.
+// The real 'config.php' is ignored by Git to keep your secrets safe.
+
 // The base URL for the Google Gemini API.
 define('GEMINI_API_URL', 'https://generativelanguage.googleapis.com/v1beta/models');
 
@@ -13,4 +17,4 @@ define('GEMINI_API_URL', 'https://generativelanguage.googleapis.com/v1beta/model
 define('MODEL_SNAPSHOT_DATE', '-06-17');
 
 // Fallback API Key. For this example, we'll leave it commented out.
-define('GEMINI_API_KEY', 'AIzaSyDyzQC6w6AgF1uGSojRpTQjAaGQy3BIha4');
+define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY_HERE');

@@ -1,2 +1,2 @@
 # Ignore sensitive configuration files
-api/config.php
+api/gemini/config.php
