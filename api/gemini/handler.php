@@ -13,10 +13,29 @@
 header('Content-Type: application/json');
 
 // Include the centralized Gemini API helper functions.
+// IMPORTANT: This assumes `callGeminiApi` in the helper is updated to accept ($prompt, $apiKey, $model).
 include_once 'gemini_helper.php';
+// Use @include_once to prevent fatal errors if config.php doesn't exist.
+// This file should define a constant like: define('GEMINI_API_KEY', 'your_fallback_api_key');
+@include_once 'config.php';
+
+// --- Determine API Key ---
+$apiKey = null;
+// 1. Check for user-provided key in Authorization header
+if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+    $apiKey = $matches[1];
+} 
+// 2. Fallback to the key from config.php if it's defined
+else if (defined('GEMINI_API_KEY')) {
+    $apiKey = GEMINI_API_KEY;
+}
 
 try {
     // --- Input Validation ---
+    if (empty($apiKey)) {
+        // If after all checks, no API key is available, throw an error.
+        throw new Exception('API key is not configured. Please provide one in the settings or configure a fallback key on the server.', 401); // Unauthorized
+    }
     $rawInput = file_get_contents('php://input');
     $input = json_decode($rawInput, true);
 
@@ -26,41 +45,48 @@ try {
 
     $tool = $input['tool'] ?? '';
     $text = $input['text'] ?? '';
+    $model = $input['model'] ?? 'gemini-2.5-flash-lite-preview';
+    $language = $input['language'] ?? 'en-GB';
+    $languageName = ($language === 'en-US') ? 'US English' : 'British English';
 
     if (empty($tool) || empty($text)) {
         throw new Exception('Required parameters "tool" or "text" are missing.', 400);
     }
 
-    // --- Prompt Construction ---
+    // --- Prompt Construction (Server-Side) ---
     $prompt = '';
     switch ($tool) {
         case 'general_assistant':
-            $prompt = "You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question: \"{$text}\"";
+            $prompt = "You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question in {$languageName}: \"{$text}\"";
             break;
         case 'task_breakdown':
-            $prompt = "Break down the following task into small, manageable steps, with time estimates in minutes: \"{$text}\"";
+            $prompt = "Break down the following task into small, manageable steps, with time estimates in minutes. Use {$languageName} for any descriptive text: \"{$text}\"";
             break;
         case 'tone_analysis':
-            $prompt = "Analyze the tone of the following text and suggest how it might be perceived: \"{$text}\"";
+            $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Provide the analysis in {$languageName}: \"{$text}\"";
             break;
         case 'formalizer':
             $formality = $input['formality'] ?? 'more formal';
             // Basic sanitization to prevent unexpected values
             $allowedFormalities = ['more formal', 'more casual', 'like a pirate'];
             if (!in_array($formality, $allowedFormalities, true)) {
-                $formality = 'more formal'; // Default to a safe value
+                $formality = 'more formal'; // Default to a safe value if invalid input is provided
             }
-            $prompt = "Rephrase the following text to be {$formality}: \"{$text}\"";
+            $prompt = "Rephrase the following text to be {$formality}. The rephrased text should be in {$languageName}: \"{$text}\"";
             break;
         case 'meal_muse':
-            $prompt = "Take the following list of ingredients and suggest a recipie that uses these ingredients: \"{$text}\"";
+            $prompt = "Take the following list of ingredients and suggest a recipe that uses these ingredients. The recipe should be written in {$languageName}: \"{$text}\"";
             break;
         default:
             throw new Exception("Invalid tool '{$tool}' specified.", 400);
     }
 
     // --- API Call and Response ---
-    $responseData = callGeminiApi($prompt);
+    // Append snapshot date from config only if it's defined and the model is the specific preview version.
+    $fullModelName = (defined('MODEL_SNAPSHOT_DATE') && $model === 'gemini-2.5-flash-lite-preview') ? $model . MODEL_SNAPSHOT_DATE : $model;
+
+    // Pass the determined API key and model to the helper function.
+    $responseData = callGeminiApi($prompt, $apiKey, $fullModelName);
 
     $generatedText = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Could not extract a valid response from the API result.';
 

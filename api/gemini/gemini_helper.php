@@ -21,23 +21,29 @@ class GeminiApiException extends Exception {
  * Centralized function to call the Google Gemini API.
  *
  * @param string $prompt The user prompt to send to the API.
+ * @param string $apiKey The API key for authentication.
+ * @param string $model The specific Gemini model to use (e.g., 'gemini-pro').
  * @return array The decoded JSON response from the API.
  * @throws Exception If configuration is missing or cURL fails.
  * @throws GeminiApiException If the API returns an error.
  */
-function callGeminiApi($prompt) {
-    // Ensure config is loaded. It's safe to include multiple times with _once.
-    include_once '../config.php';
+function callGeminiApi($prompt, $apiKey, $model) {
+    // The handler is now responsible for including config and providing the key.
+    // We still need the base URL from the config.
+    if (!defined('GEMINI_API_URL')) {
+        throw new Exception('API base URL is not configured correctly in config.php.', 500);
+    }
 
-    if (!defined('GEMINI_API_KEY') || empty(GEMINI_API_KEY) || !defined('GEMINI_API_URL')) {
-        throw new Exception('API key or URL is not configured correctly in config.php.', 500);
+    if (empty($apiKey) || empty($model)) {
+        throw new Exception('API key or model was not provided to the API helper.', 500);
     }
 
     $data = [
         'contents' => [['parts' => [['text' => $prompt]]]]
     ];
 
-    $full_api_url = GEMINI_API_URL . '?key=' . GEMINI_API_KEY;
+    // Construct the full URL using the provided model, ensuring no double slashes.
+    $full_api_url = rtrim(GEMINI_API_URL, '/') . '/' . $model . ':generateContent?key=' . $apiKey;
 
     $ch = curl_init($full_api_url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
