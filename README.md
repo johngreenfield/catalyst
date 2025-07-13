@@ -65,17 +65,16 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
     Open your terminal or command prompt, navigate to your web server's root directory (e.g., `c:\laragon\www`), and clone the project:
 
     ```bash
-    git clone https://github.com/your-username/catalyst.git
+    git clone https://github.com/johngreenfield/catalyst.git
     cd catalyst
     ```
-    *(Note: Replace `your-username` with the actual GitHub username where the repository is hosted.)*
 
 2.  **Configure Your API Key**
 
     To use the application, you must provide your own Google Gemini API key. You can obtain a free key from [Google AI Studio](https://aistudio.google.com/).
 
-    - Inside the `api/` directory, create a new file named `config.php`.
-    - Copy and paste the following code into `config.php`, replacing `'YOUR_GEMINI_API_KEY'` with your actual key:
+    - Inside the `api/` directory, copy the file `config.php.example` and rename it to `config.php`.
+    - Update the following line in `config.php`, replacing `'YOUR_GEMINI_API_KEY'` with your actual key:
 
     ```php
     <?php
@@ -114,37 +113,15 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [X] Set up the GitHub repository for the Catalyst project.
-
-- [X] Initialize the local Git repository and connect it to GitHub.
-
-- [X] Create the basic project structure (frontend and backend folders).
-
-- [X] Obtain a Gemini API key from Google AI Studio.
-
-- [X] Implement a basic HTML/CSS/JavaScript frontend.
-
-- [X] Develop the backend to securely call the Gemini API.
-
-- [X] Integrate the frontend with the backend using fetch or XMLHttpRequest.
-
-- [X] Implement the Task Breakdown feature.
-
-- [ ] Test the Task Breakdown feature thoroughly.
-
-- [X] Implement the Tone Analysis feature.
-
-- [X] Implement the "Formalizer" (Text Rephrasing/Style Adjustment) feature.
-
 - [ ] Test the Tone Analysis and Formalizer feature thoroughly.
 
 - [ ] Implement the Brain Dump Organizer feature.
 
-- [X] Implement the "Meal Muse" (Recipe Suggestions) feature.
+- [ ] Implement the Playlist Generator feature.
 
-- [ ] Add comprehensive error handling.
+- [ ] Prompt improvement and testing in AI Studio.
 
-- [ ] Prompt improvement and testing in AI Studio
+- [ ] Add ability to choose between Gemini and ChatGPT, different models etc.
 
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
 
