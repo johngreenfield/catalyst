@@ -174,8 +174,9 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="modelSelector" class="form-label">AI Model</label>
                                     <select class="form-select" id="modelSelector">
-                                        <option value="gemini-pro" selected>Gemini Pro (Default)</option>
-                                        <option value="gemini-pro-vision" disabled>Gemini Pro Vision (coming soon)</option>
+                                        <option value="gemini-2.5-flash-lite-preview" selected>Gemini 2.5 Flash Lite Preview (Default)</option>
+                                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                                        <option value="gemini-2.5-pro" disabled>Gemini 2.5 Pro (coming soon)</option>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -190,7 +191,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" class="btn btn-primary" id="save-settings-button">Save changes</button>
                     </div>
                 </div>
             </div>

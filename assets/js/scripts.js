@@ -43,6 +43,10 @@ const updateSubmitButtonText = (tool) => {
  * @param {string} tool The identifier for the selected tool (e.g., 'task_breakdown').
  */
 async function processPrompt(tool) {
+    const apiKey = localStorage.getItem('apiKey');
+    const model = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+    const language = localStorage.getItem('language') || 'en-GB';
+
     const submitButton = document.getElementById('submit-button');
     const spinner = submitButton.querySelector('.spinner-border');
     const inputText = document.getElementById('prompt-input').value;
@@ -67,10 +71,12 @@ async function processPrompt(tool) {
     // --- API Call Logic ---
     const endpoint = '/api/gemini/handler.php';
 
-    // Prepare the payload for server-side prompt construction
+    // Prepare the payload for server-side prompt construction, including model and language.
     const payload = {
         tool: tool,
-        text: inputText
+        text: inputText,
+        model: model,
+        language: language
     };
 
     // Add formality level to payload if the formalizer tool is selected.
@@ -78,12 +84,20 @@ async function processPrompt(tool) {
         payload.formality = document.getElementById('formalityLevel').value;
     }
 
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+
+    // Add the Authorization header only if a user-provided API key exists.
+    if (apiKey) {
+        headers['Authorization'] = `Bearer ${apiKey}`;
+    }
+
     try {
         const response = await fetch(endpoint, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            // Use the headers object which may or may not contain the Authorization key.
+            headers: headers,
             body: JSON.stringify(payload)
         });
 
@@ -136,6 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const toolSelector = document.getElementById('tool-selector');
     const formalizerOptions = document.getElementById('formalizer-options');
     const themeToggle = document.getElementById('theme-toggle');
+    const saveSettingsButton = document.getElementById('save-settings-button');
+    const apiKeyInput = document.getElementById('apiKeyInput');
+    const toggleApiKeyVisibilityButton = document.getElementById('toggleApiKeyVisibility');
+    const modelSelector = document.getElementById('modelSelector');
+    const languagePreference = document.getElementById('languagePreference');
     const promptInput = document.getElementById('prompt-input');
     const helpModalEl = document.getElementById('helpModal');
     const settingsModalEl = document.getElementById('settingsModal');
@@ -220,6 +239,50 @@ document.addEventListener('DOMContentLoaded', () => {
             setTheme(newColorScheme);
         }
     });
+
+    // --- Settings Modal Logic ---
+    const loadSettings = () => {
+        if (apiKeyInput) {
+            apiKeyInput.value = localStorage.getItem('apiKey') || '';
+        }
+        if (modelSelector) {
+            modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+        }
+        if (languagePreference) {
+            const savedLang = localStorage.getItem('language');
+            // Set initial language, respecting user's browser preference as a fallback.
+            languagePreference.value = savedLang || (navigator.language === 'en-US' ? 'en-US' : 'en-GB');
+        }
+    };
+
+    const saveSettings = () => {
+        if (apiKeyInput && modelSelector && languagePreference) {
+            localStorage.setItem('apiKey', apiKeyInput.value.trim());
+            localStorage.setItem('model', modelSelector.value);
+            localStorage.setItem('language', languagePreference.value);
+            if (settingsModal) {
+                settingsModal.hide();
+            }
+        }
+    };
+
+    if (settingsModalEl) {
+        settingsModalEl.addEventListener('show.bs.modal', loadSettings);
+    }
+
+    if (saveSettingsButton) {
+        saveSettingsButton.addEventListener('click', saveSettings);
+    }
+
+    if (toggleApiKeyVisibilityButton && apiKeyInput) {
+        toggleApiKeyVisibilityButton.addEventListener('click', () => {
+            const icon = toggleApiKeyVisibilityButton.querySelector('i');
+            const isPassword = apiKeyInput.type === 'password';
+            apiKeyInput.type = isPassword ? 'text' : 'password';
+            icon.classList.toggle('bi-eye', !isPassword);
+            icon.classList.toggle('bi-eye-slash', isPassword);
+        });
+    }
 
     // --- Keyboard Shortcuts ---
     document.addEventListener('keydown', (event) => {
