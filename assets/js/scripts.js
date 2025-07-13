@@ -5,140 +5,11 @@
  * Version: 0.5
  */
 
-/**
- * Updates the text of the submit button to be more descriptive of the selected tool's action.
- * @param {string} tool The identifier for the selected tool (e.g., 'task_breakdown').
- */
-const updateSubmitButtonText = (tool) => {
-    const buttonTextSpan = document.querySelector('#submit-button .button-text');
-    if (!buttonTextSpan) return;
-
-    let buttonText = 'Process Text'; // Default text
-    switch (tool) {
-        case 'general_assistant':
-            buttonText = 'Ask Assistant';
-            break;
-        case 'task_breakdown':
-            buttonText = 'Break it Down';
-            break;
-        case 'tone_analysis':
-            buttonText = 'Analyze Tone';
-            break;
-        case 'formalizer':
-            buttonText = 'Rephrase Text';
-            break;
-        case 'meal_muse':
-            buttonText = 'Suggest Recipe';
-            break;
-    }
-    buttonTextSpan.textContent = buttonText;
-};
-
-// --- Catalyst JS API Calls --- 
-
-/**
- * Main function to handle the API request based on the selected tool.
- * It constructs the appropriate prompt, sends it to the backend endpoint,
- * and displays the result or an error message.
- * @param {string} tool The identifier for the selected tool (e.g., 'task_breakdown').
- */
-async function processPrompt(tool) {
-    const apiKey = localStorage.getItem('apiKey');
-    const model = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
-    const language = localStorage.getItem('language') || 'en-GB';
-
-    const submitButton = document.getElementById('submit-button');
-    const spinner = submitButton.querySelector('.spinner-border');
-    const inputText = document.getElementById('prompt-input').value;
-    const resultContainer = document.getElementById('result-container');
-
-    if (!inputText) {
-        alert('Please enter some text.');
-        return;
-    }
-
-    // --- Start loading state ---
-    // Disable the button and show the spinner to indicate processing.
-    submitButton.disabled = true;
-    spinner.classList.remove('d-none');
-    // Provide a better loading indicator inside the result container.
-    resultContainer.innerHTML = `<div class="d-flex justify-content-center align-items-center" style="min-height: 100px;">
-        <div class="spinner-border" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>`;
-
-    // --- API Call Logic ---
-    const endpoint = '/api/gemini/handler.php';
-
-    // Prepare the payload for server-side prompt construction, including model and language.
-    const payload = {
-        tool: tool,
-        text: inputText,
-        model: model,
-        language: language
-    };
-
-    // Add formality level to payload if the formalizer tool is selected.
-    if (tool === 'formalizer') {
-        payload.formality = document.getElementById('formalityLevel').value;
-    }
-
-    const headers = {
-        'Content-Type': 'application/json'
-    };
-
-    // Add the Authorization header only if a user-provided API key exists.
-    if (apiKey) {
-        headers['Authorization'] = `Bearer ${apiKey}`;
-    }
-
-    try {
-        const response = await fetch(endpoint, {
-            method: 'POST',
-            // Use the headers object which may or may not contain the Authorization key.
-            headers: headers,
-            body: JSON.stringify(payload)
-        });
-
-        const data = await response.json(); // Attempt to parse JSON response body
-
-        if (!response.ok) {
-            // Use the error message directly from the centralized API handler.
-            const errorMessage = data.error || `Request failed with status ${response.status}`;
-            const errorDetails = data.details ? `<br><small>Details: ${JSON.stringify(data.details)}</small>` : '';
-            throw new Error(errorMessage + errorDetails);
-        }
-
-        resultContainer.innerText = data.result ?? 'No valid result was returned from the API.';
-    } catch (error) {
-        console.error('Error:', error);
-        
-        // Differentiate between network errors and application/API errors for better user feedback.
-        let alertMessage = '';
-        if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-            // This is a network error.
-            alertMessage = `
-                <div class="alert alert-warning" role="alert">
-                    <strong>Network Error:</strong> Could not connect to the server. Please check your internet connection and try again.
-                </div>`;
-        } else {
-            // This is an error from our API or the Gemini API.
-            alertMessage = `
-                <div class="alert alert-danger" role="alert">
-                    <strong>An error occurred:</strong><br>
-                    ${error.message}
-                </div>`;
-        }
-        resultContainer.innerHTML = alertMessage;
-    } finally {
-        // --- End loading state ---
-        // This block will run whether the request succeeds or fails.
-        // Re-enable the button and hide the spinner.
-        submitButton.disabled = false;
-        spinner.classList.add('d-none');
-    }
-}
+import { updateSubmitButtonText, streamText, clearStream } from './ui-helpers.js';
+import { initializeTheme } from './theme.js';
+import { initializeSettings } from './settings.js';
+import { initializeShortcuts } from './shortcuts.js';
+import { processPrompt } from './api.js';
 
 /**
  * Main entry point for the application's client-side logic.
@@ -148,13 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitButton = document.getElementById('submit-button');
     const clearButton = document.getElementById('clear-button');
     const toolSelector = document.getElementById('tool-selector');
+    const scrollToBottomButton = document.getElementById('scroll-to-bottom-button');
+    const stopButton = document.getElementById('stop-button');
+    const resultContainer = document.getElementById('result-container');
+    const copyButton = document.getElementById('copy-result-button');
     const formalizerOptions = document.getElementById('formalizer-options');
-    const themeToggle = document.getElementById('theme-toggle');
-    const saveSettingsButton = document.getElementById('save-settings-button');
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    const toggleApiKeyVisibilityButton = document.getElementById('toggleApiKeyVisibility');
-    const modelSelector = document.getElementById('modelSelector');
-    const languagePreference = document.getElementById('languagePreference');
     const promptInput = document.getElementById('prompt-input');
     const helpModalEl = document.getElementById('helpModal');
     const settingsModalEl = document.getElementById('settingsModal');
@@ -176,15 +45,98 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    if (stopButton) {
+        stopButton.addEventListener('click', () => {
+            clearStream();
+            // The `finally` block in processPrompt will handle resetting the UI.
+        });
+    }
+
     if (clearButton) {
         clearButton.addEventListener('click', () => {
-            const resultContainer = document.getElementById('result-container');
+            clearStream();
+
             if (promptInput) {
                 promptInput.value = '';
                 promptInput.focus(); // Focus the input for a better user experience.
             }
             if (resultContainer) {
                 resultContainer.innerText = 'Waiting for prompt...';
+                if (resultContainer.dataset.rawText) {
+                    delete resultContainer.dataset.rawText;
+                }
+            }
+            // Hide the copy button when the results are cleared.
+            if (copyButton) {
+                copyButton.style.display = 'none';
+            }
+            // Hide the scroll-to-bottom button as well
+            if (scrollToBottomButton) {
+                scrollToBottomButton.classList.remove('show');
+            }
+        });
+    }
+
+    /**
+     * Copies the given text to the clipboard, using the modern Clipboard API
+     * with a fallback to the older `execCommand` for insecure contexts or older browsers.
+     * @param {string} text The text to copy.
+     * @returns {Promise<void>} A promise that resolves on success and rejects on failure.
+     */
+    async function copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            // Modern async clipboard API in a secure context.
+            return navigator.clipboard.writeText(text);
+        } else {
+            // Fallback for older browsers or insecure contexts (like http://).
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed'; // Make it invisible.
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            return new Promise((res, rej) => {
+                try {
+                    document.execCommand('copy') ? res() : rej(new Error('Copy command failed.'));
+                } catch (error) {
+                    rej(error);
+                } finally {
+                    document.body.removeChild(textArea);
+                }
+            });
+        }
+    }
+
+    if (copyButton && resultContainer) {
+        copyButton.addEventListener('click', async () => {
+            // Copy the raw markdown from the data attribute, not the rendered innerText.
+            const textToCopy = resultContainer.dataset.rawText || resultContainer.innerText;
+
+            if (!textToCopy || textToCopy === 'Waiting for prompt...') {
+                return; // Don't copy placeholder text
+            }
+            try {
+                await copyToClipboard(textToCopy);
+                // --- Success UI feedback ---
+                const icon = copyButton.querySelector('i');
+                copyButton.setAttribute('data-original-icon-class', icon.className);
+
+                icon.className = 'bi bi-check-lg';
+                copyButton.classList.add('btn-success');
+                copyButton.classList.remove('btn-outline-secondary');
+                copyButton.setAttribute('title', 'Copied!');
+
+                setTimeout(() => {
+                    icon.className = copyButton.getAttribute('data-original-icon-class');
+                    copyButton.classList.remove('btn-success');
+                    copyButton.classList.add('btn-outline-secondary');
+                    copyButton.setAttribute('title', 'Copy to clipboard');
+                }, 2000);
+            } catch (err) {
+                // --- Failure UI feedback ---
+                console.error('Failed to copy text: ', err);
+                copyButton.setAttribute('title', 'Copy failed!');
             }
         });
     }
@@ -201,135 +153,34 @@ document.addEventListener('DOMContentLoaded', () => {
         updateSubmitButtonText(toolSelector.value);
     }
 
-    // --- Theme Toggler Logic ---
-    const htmlElement = document.documentElement;
-    
-    /**
-     * Sets the application's color theme.
-     * It updates the `data-bs-theme` attribute on the <html> element,
-     * saves the preference to localStorage, and syncs the theme toggle switch.
-     * @param {string} theme The theme to set, either 'dark' or 'light'.
-     */
-    const setTheme = (theme) => {
-        htmlElement.setAttribute('data-bs-theme', theme);
-        localStorage.setItem('theme', theme);
-        if (themeToggle) {
-            themeToggle.checked = theme === 'dark';
-        }
-    };
+    // --- Scroll-to-Bottom Button Logic ---
+    if (scrollToBottomButton && resultContainer) {
+        const checkScrollButtonVisibility = () => {
+            const scrollThreshold = 10; // A small pixel threshold
+            const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - scrollThreshold;
+            const hasResults = resultContainer.innerText && resultContainer.innerText !== 'Waiting for prompt...';
 
-    if (themeToggle) {
-        themeToggle.addEventListener('change', () => {
-            const newTheme = themeToggle.checked ? 'dark' : 'light';
-            setTheme(newTheme);
+            if (!isAtBottom && hasResults) {
+                scrollToBottomButton.classList.add('show');
+            } else {
+                scrollToBottomButton.classList.remove('show');
+            }
+        };
+
+        // Check visibility on user scroll.
+        window.addEventListener('scroll', checkScrollButtonVisibility);
+
+        // Check visibility when the result container's size changes.
+        const resizeObserver = new ResizeObserver(checkScrollButtonVisibility);
+        resizeObserver.observe(resultContainer);
+
+        // Handle the click event to scroll down and enable auto-scrolling.
+        scrollToBottomButton.addEventListener('click', () => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         });
     }
 
-    // Set initial theme on page load, respecting user's system preference as a fallback.
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-    setTheme(initialTheme);
-
-    // Add a listener for real-time changes in the system's color scheme preference.
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-        // Only update the theme if the user hasn't already made an explicit choice on the site.
-        if (!localStorage.getItem('theme')) {
-            const newColorScheme = event.matches ? "dark" : "light";
-            setTheme(newColorScheme);
-        }
-    });
-
-    // --- Settings Modal Logic ---
-    const loadSettings = () => {
-        if (apiKeyInput) {
-            apiKeyInput.value = localStorage.getItem('apiKey') || '';
-        }
-        if (modelSelector) {
-            modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
-        }
-        if (languagePreference) {
-            const savedLang = localStorage.getItem('language');
-            // Set initial language, respecting user's browser preference as a fallback.
-            languagePreference.value = savedLang || (navigator.language === 'en-US' ? 'en-US' : 'en-GB');
-        }
-    };
-
-    const saveSettings = () => {
-        if (apiKeyInput && modelSelector && languagePreference) {
-            localStorage.setItem('apiKey', apiKeyInput.value.trim());
-            localStorage.setItem('model', modelSelector.value);
-            localStorage.setItem('language', languagePreference.value);
-            if (settingsModal) {
-                settingsModal.hide();
-            }
-        }
-    };
-
-    if (settingsModalEl) {
-        settingsModalEl.addEventListener('show.bs.modal', loadSettings);
-    }
-
-    if (saveSettingsButton) {
-        saveSettingsButton.addEventListener('click', saveSettings);
-    }
-
-    if (toggleApiKeyVisibilityButton && apiKeyInput) {
-        toggleApiKeyVisibilityButton.addEventListener('click', () => {
-            const icon = toggleApiKeyVisibilityButton.querySelector('i');
-            const isPassword = apiKeyInput.type === 'password';
-            apiKeyInput.type = isPassword ? 'text' : 'password';
-            icon.classList.toggle('bi-eye', !isPassword);
-            icon.classList.toggle('bi-eye-slash', isPassword);
-        });
-    }
-
-    // --- Keyboard Shortcuts ---
-    document.addEventListener('keydown', (event) => {
-        // Shortcut to focus the prompt input: Press "/"
-        // This should not trigger if the user is already typing in an input field.
-        const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
-        if (event.key === '/' && !isTyping) {
-            event.preventDefault(); // Prevent the "/" character from being typed.
-            if (promptInput) {
-                promptInput.focus();
-            }
-        }
-
-        // Shortcut to open the help modal: Press "?"
-        if (event.key === '?' && !isTyping) {
-            event.preventDefault(); // Prevent the "?" character from being typed.
-            if (helpModal) {
-                helpModal.show();
-            }
-        }
-
-        // Shortcut to open settings modal: Press Ctrl+, or Cmd+,
-        if (event.key === ',' && (event.ctrlKey || event.metaKey)) {
-            event.preventDefault(); // Prevent default browser action (if any).
-            if (settingsModal) {
-                settingsModal.show();
-            }
-        }
-
-        // Shortcut to submit the form: Press Ctrl+Enter or Cmd+Enter
-        // This should only trigger when the prompt input is focused.
-        if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
-            if (document.activeElement === promptInput) {
-                event.preventDefault(); // Prevent the default newline action in the textarea.
-                if (submitButton) {
-                    submitButton.click(); // Programmatically click the submit button.
-                }
-            }
-        }
-
-        // Shortcut to clear the prompt input: Press Escape
-        // This should only trigger when the prompt input is focused.
-        if (event.key === 'Escape' && document.activeElement === promptInput) {
-            event.preventDefault(); // Prevent any other 'Escape' behavior like closing modals.
-            if (clearButton) {
-                clearButton.click();
-            }
-        }
-    });
+    initializeTheme();
+    initializeSettings(settingsModal);
+    initializeShortcuts(helpModal, settingsModal);
 });
