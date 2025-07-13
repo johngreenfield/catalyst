@@ -1,5 +1,8 @@
 <?php
-// api/config.php.example
+// Catalyst Configuration
+// Author: John Greenfield
+// Website: https://johngreenfield.dev/catalyst/
+// Version: 0.3
 
 // This is an example configuration file.
 // To use the application, copy this file to 'config.php' and fill in your actual API key.

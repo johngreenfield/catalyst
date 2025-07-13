@@ -1,4 +1,9 @@
-// --- Catalyst App Client Scripts --- 
+/**
+ *  --- Catalyst App Client Scripts --- 
+ * Author: John Greenfield
+ * Website: https://johngreenfield.dev/catalyst/
+ * Version: 0.3
+ */
 
 /**
  * Main entry point for the application's client-side logic.
