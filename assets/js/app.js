@@ -1,4 +1,4 @@
-// Catalyst App Client Scripts
+// --- Catalyst App Client Scripts --- 
 
 /**
  * Main entry point for the application's client-side logic.
@@ -9,6 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const toolSelector = document.getElementById('tool-selector');
     const formalizerOptions = document.getElementById('formalizer-options');
     const themeToggle = document.getElementById('theme-toggle');
+    const promptInput = document.getElementById('prompt-input');
+    const helpModalEl = document.getElementById('helpModal');
+    const settingsModalEl = document.getElementById('settingsModal');
+    let helpModal;
+    let settingsModal;
+
+    if (helpModalEl) {
+        helpModal = new bootstrap.Modal(helpModalEl);
+    }
+
+    if (settingsModalEl) {
+        settingsModal = new bootstrap.Modal(settingsModalEl);
+    }
 
     if (submitButton) {
         submitButton.addEventListener('click', () => {
@@ -62,9 +75,49 @@ document.addEventListener('DOMContentLoaded', () => {
             setTheme(newColorScheme);
         }
     });
+
+    // --- Keyboard Shortcuts ---
+    document.addEventListener('keydown', (event) => {
+        // Shortcut to focus the prompt input: Press "/"
+        // This should not trigger if the user is already typing in an input field.
+        const isTyping = ['INPUT', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName);
+        if (event.key === '/' && !isTyping) {
+            event.preventDefault(); // Prevent the "/" character from being typed.
+            if (promptInput) {
+                promptInput.focus();
+            }
+        }
+
+        // Shortcut to open the help modal: Press "?"
+        if (event.key === '?' && !isTyping) {
+            event.preventDefault(); // Prevent the "?" character from being typed.
+            if (helpModal) {
+                helpModal.show();
+            }
+        }
+
+        // Shortcut to open settings modal: Press Ctrl+, or Cmd+,
+        if (event.key === ',' && (event.ctrlKey || event.metaKey)) {
+            event.preventDefault(); // Prevent default browser action (if any).
+            if (settingsModal) {
+                settingsModal.show();
+            }
+        }
+
+        // Shortcut to submit the form: Press Ctrl+Enter or Cmd+Enter
+        // This should only trigger when the prompt input is focused.
+        if (event.key === 'Enter' && (event.ctrlKey || event.metaKey)) {
+            if (document.activeElement === promptInput) {
+                event.preventDefault(); // Prevent the default newline action in the textarea.
+                if (submitButton) {
+                    submitButton.click(); // Programmatically click the submit button.
+                }
+            }
+        }
+    });
 });
 
-// Catalyst JS API Calls
+// --- Catalyst JS API Calls --- 
 
 /**
  * Main function to handle the API request based on the selected tool.
@@ -109,14 +162,12 @@ async function processPrompt(tool) {
             endpoint = '/api/meal_muse.php';
             prompt = `Take the following list of ingredients and suggest a recipie that uses these ingredients: "${inputText}"`;
             break;
-        // TODO: Add more cases for other tools
         default:
             alert('Unknown tool.');
             return;
     }
 
     try {
-        // TODO: Show spinner, disable button
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {

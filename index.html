@@ -128,7 +128,7 @@
 
             <!-- Results Container -->
             <section class="my-4">
-                <h3>Result:</h3>
+                <h2>Result:</h2>
                 <div id="result-container">Waiting for prompt...</div>
             </section>
         </main>
@@ -142,8 +142,37 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>This is where your application settings will go. You can add form fields, toggles, and other configuration options here.</p>
-                        <p>The modal is set to be large using the <code>.modal-lg</code> class and is responsive by default.</p>
+                        <form>
+                            <!-- API Key Input -->
+                            <div class="mb-4">
+                                <label for="apiKeyInput" class="form-label">Gemini API Key</label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="apiKeyInput" aria-describedby="apiKeyHelp" placeholder="Enter your API key">
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleApiKeyVisibility">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                                <div id="apiKeyHelp" class="form-text">Your API key is stored securely in your browser's local storage and is never shared.</div>
+                            </div>
+
+                            <!-- Model and Language Selection -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="modelSelector" class="form-label">AI Model</label>
+                                    <select class="form-select" id="modelSelector">
+                                        <option value="gemini-pro" selected>Gemini Pro (Default)</option>
+                                        <option value="gemini-pro-vision" disabled>Gemini Pro Vision (coming soon)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="languagePreference" class="form-label">Language Preference</label>
+                                    <select class="form-select" id="languagePreference">
+                                        <option value="en-GB" selected>British English</option>
+                                        <option value="en-US">US English</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -171,6 +200,37 @@
                             <li><strong>Formalizer:</strong> Rewrite text to be more formal or casual.</li>
                             <li><strong>Meal Muse:</strong> List ingredients to get a recipe suggestion.</li>
                         </ul>
+
+                        <hr class="my-4">
+
+                        <h5 class="mb-3">Frequently Asked Questions</h5>
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                        Is my data and API key secure?
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Nunc vel elit ut libero consequat aliquam. Integer nec eros nec justo viverra sollicitudin.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        How does the Task Breakdown feature work?
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Got it!</button>
