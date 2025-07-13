@@ -53,7 +53,7 @@ try {
         throw new Exception('Required parameters "tool" or "text" are missing.', 400);
     }
 
-    // --- Prompt Construction (Server-Side) ---
+    // --- Prompt Construction ---
     $prompt = '';
     switch ($tool) {
         case 'general_assistant':
@@ -63,7 +63,7 @@ try {
             $prompt = "Break down the following task into small, manageable steps, with time estimates in minutes. Use {$languageName} for any descriptive text: \"{$text}\"";
             break;
         case 'tone_analysis':
-            $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Provide the analysis in {$languageName}: \"{$text}\"";
+            $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Offer helpful suggestions. Provide the analysis in {$languageName}: \"{$text}\"";
             break;
         case 'formalizer':
             $formality = $input['formality'] ?? 'more formal';
@@ -80,6 +80,21 @@ try {
         default:
             throw new Exception("Invalid tool '{$tool}' specified.", 400);
     }
+
+    // Prepend a system instruction to guide the model's output style.
+    $systemInstruction = <<<EOT
+<system_instructions>
+  <persona>
+    You are Catalyst, a friendly, encouraging, and non-judgmental AI assistant. Your primary goal is to help users, especially those with executive function challenges, by making tasks and information more manageable.
+  </persona>
+  <rules>
+    - Always be direct and get straight to the point.
+    - Use Markdown formatting (like lists, bold text, and italics) to make your responses clear and easy to read.
+    - NEVER mention the language you are writing in (e.g., "British English") unless the user's prompt explicitly asks about language.
+  </rules>
+</system_instructions>
+EOT;
+    $prompt = $systemInstruction . "\n\n---\n\nUser Prompt:\n" . $prompt;
 
     // --- API Call and Response ---
     // Append snapshot date from config only if it's defined and the model is the specific preview version.
