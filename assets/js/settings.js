@@ -9,6 +9,7 @@ export function initializeSettings(settingsModal) {
     const toggleApiKeyVisibilityButton = document.getElementById('toggleApiKeyVisibility');
     const modelSelector = document.getElementById('modelSelector');
     const languagePreference = document.getElementById('languagePreference');
+    const typingEffectToggle = document.getElementById('typingEffectToggle');
 
     const loadSettings = () => {
         if (apiKeyInput) {
@@ -21,13 +22,19 @@ export function initializeSettings(settingsModal) {
             const savedLang = localStorage.getItem('language');
             languagePreference.value = savedLang || (navigator.language === 'en-US' ? 'en-US' : 'en-GB');
         }
+        if (typingEffectToggle) {
+            // Default to 'true' (enabled) if not set.
+            typingEffectToggle.checked = localStorage.getItem('typingEffectEnabled') !== 'false';
+        }
     };
 
     const saveSettings = () => {
-        if (apiKeyInput && modelSelector && languagePreference) {
+        if (apiKeyInput && modelSelector && languagePreference && typingEffectToggle) {
             localStorage.setItem('apiKey', apiKeyInput.value.trim());
             localStorage.setItem('model', modelSelector.value);
             localStorage.setItem('language', languagePreference.value);
+            // Save the state of the typing effect toggle.
+            localStorage.setItem('typingEffectEnabled', typingEffectToggle.checked);
             if (settingsModal) {
                 settingsModal.hide();
             }
