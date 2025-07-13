@@ -46,6 +46,20 @@ export function streamText(element, text, speed = 40) {
         clearStream(); // This will also clear any lingering `streamResolve`
         streamResolve = resolve; // Store the new resolve function
         element.dataset.rawText = text; // Store the original markdown text for copying
+
+        const typingEffectEnabled = localStorage.getItem('typingEffectEnabled') !== 'false';
+
+        if (!typingEffectEnabled) {
+            // If typing effect is disabled, display the full text immediately.
+            // The `marked` library is loaded from a CDN in index.html.
+            element.innerHTML = marked.parse(text);
+            if (streamResolve) {
+                streamResolve();
+                streamResolve = null;
+            }
+            return; // Exit the function early
+        }
+
         element.innerHTML = ''; // Use innerHTML to render markdown
         const parts = text.split(/(\s+)/); // Split by spaces/newlines but keep them
         let i = 0;
