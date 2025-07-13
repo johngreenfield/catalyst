@@ -65,12 +65,12 @@
                     </ul>
                     <hr class="d-lg-none my-2">
                     <div class="d-flex flex-row justify-content-around justify-content-lg-end align-items-center w-100 w-lg-auto mt-lg-0">
-                        <a href="#" class="nav-link me-lg-2" id="settings-button" aria-label="Settings" data-bs-toggle="modal" data-bs-target="#settingsModal">
-                            <i class="bi bi-gear fs-5"></i>
-                        </a>
-                        <a href="#" class="nav-link me-lg-3" id="help-button" aria-label="Help" data-bs-toggle="modal" data-bs-target="#helpModal">
-                            <i class="bi bi-question-circle fs-5"></i>
-                        </a>
+                        <button type="button" class="btn nav-link me-lg-2" id="settings-button" aria-label="Settings" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                            <i class="bi bi-gear fs-5" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" class="btn nav-link me-lg-3" id="help-button" aria-label="Help" data-bs-toggle="modal" data-bs-target="#helpModal">
+                            <i class="bi bi-question-circle fs-5" aria-hidden="true"></i>
+                        </button>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" id="theme-toggle">
                             <label class="form-check-label" for="theme-toggle">Dark Mode</label>
@@ -89,8 +89,9 @@
             </header>
             
             <!-- Prompt Form -->
-            <section class="card">
+            <section class="card" role="region" aria-labelledby="prompt-heading">
                 <div class="card-body">
+                    <h2 id="prompt-heading" class="visually-hidden">Prompt Form</h2>
 
                     <div class="row g-3 align-items-center mb-3">
                         <div class="col-auto">
@@ -107,11 +108,14 @@
                         </div>
                         
                         <div class="col-auto" id="formalizer-options" style="display: none;">
-                            <select class="form-select" id="formalityLevel">
-                                <option value="more formal" selected>More Formal</option>
-                                <option value="more casual">More Casual</option>
-                                <option value="like a pirate">Like a Pirate</option>
-                            </select>
+                            <div class="input-group">
+                                <label class="input-group-text" for="formalityLevel">Level:</label>
+                                <select class="form-select" id="formalityLevel">
+                                    <option value="more formal" selected>More Formal</option>
+                                    <option value="more casual">More Casual</option>
+                                    <option value="like a pirate">Like a Pirate</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -127,9 +131,9 @@
             </section>
 
             <!-- Results Container -->
-            <section class="my-4">
-                <h2>Result:</h2>
-                <div id="result-container">Waiting for prompt...</div>
+            <section class="my-4" role="region" aria-labelledby="result-heading">
+                <h2 id="result-heading">Result:</h2>
+                <div id="result-container" aria-live="polite">Waiting for prompt...</div>
             </section>
         </main>
 
@@ -138,7 +142,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="settingsModalLabel">Settings</h1>
+                        <h2 class="modal-title fs-5" id="settingsModalLabel">Settings</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -148,8 +152,8 @@
                                 <label for="apiKeyInput" class="form-label">Gemini API Key</label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" id="apiKeyInput" aria-describedby="apiKeyHelp" placeholder="Enter your API key">
-                                    <button class="btn btn-outline-secondary" type="button" id="toggleApiKeyVisibility">
-                                        <i class="bi bi-eye"></i>
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleApiKeyVisibility" aria-label="Toggle API key visibility">
+                                        <i class="bi bi-eye" aria-hidden="true"></i>
                                     </button>
                                 </div>
                                 <div id="apiKeyHelp" class="form-text">Your API key is stored securely in your browser's local storage and is never shared.</div>
@@ -187,11 +191,11 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="helpModalLabel">Help & Information</h1>
+                        <h2 class="modal-title fs-5" id="helpModalLabel">Help & Information</h2>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <h5>Welcome to Catalyst!</h5>
+                        <h3>Welcome to Catalyst!</h3>
                         <p>This application is designed to assist with executive function challenges. Here's a quick guide to the tools:</p>
                         <ul>
                             <li><strong>General Assistant:</strong> Ask any question for a helpful response.</li>
@@ -203,10 +207,10 @@
 
                         <hr class="my-4">
 
-                        <h5 class="mb-3">Frequently Asked Questions</h5>
+                        <h3 class="mb-3">Frequently Asked Questions</h3>
                         <div class="accordion" id="faqAccordion">
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                         Is my data and API key secure?
                                     </button>
@@ -218,7 +222,7 @@
                                 </div>
                             </div>
                             <div class="accordion-item">
-                                <h2 class="accordion-header">
+                                <h3 class="accordion-header">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                         How does the Task Breakdown feature work?
                                     </button>
