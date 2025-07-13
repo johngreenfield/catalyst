@@ -1,7 +1,7 @@
 /* Custom styles for Catalyst */
-html,
 body {
-    height: 100%;
+    /* Ensures the body takes up at least the full viewport height, allowing the footer to stick to the bottom. */
+    min-height: 100vh;
 }
 
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
