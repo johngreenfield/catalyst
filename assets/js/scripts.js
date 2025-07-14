@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (submitButton) {
         submitButton.addEventListener('click', () => {
             const selectedTool = toolSelector.value;
+            resultContainer.classList.remove('is-placeholder');
             processPrompt(selectedTool);
         });
     }
@@ -61,7 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 promptInput.focus(); // Focus the input for a better user experience.
             }
             if (resultContainer) {
-                resultContainer.innerText = 'Waiting for prompt...';
+                resultContainer.innerHTML = ''; // Clear previous results
+                resultContainer.classList.add('is-placeholder');
                 if (resultContainer.dataset.rawText) {
                     delete resultContainer.dataset.rawText;
                 }
@@ -113,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Copy the raw markdown from the data attribute, not the rendered innerText.
             const textToCopy = resultContainer.dataset.rawText || resultContainer.innerText;
 
-            if (!textToCopy || textToCopy === 'Waiting for prompt...') {
+            if (!textToCopy || textToCopy.trim() === '') {
                 return; // Don't copy placeholder text
             }
             try {
@@ -144,12 +146,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (toolSelector) {
         toolSelector.addEventListener('change', () => {
             const selectedTool = toolSelector.value;
-            // Toggles the visibility of the formality level dropdown based on the selected tool.
-            formalizerOptions.style.display = (selectedTool === 'formalizer') ? 'block' : 'none';
+            const isFormalizer = selectedTool === 'formalizer';
+            // Toggles the visibility of the formality level dropdown.
+            formalizerOptions.style.display = isFormalizer ? 'block' : 'none';
+            // Update ARIA attribute to inform assistive tech that the select controls another element.
+            toolSelector.setAttribute('aria-expanded', isFormalizer);
             // Dynamically update the submit button text to match the selected tool.
             updateSubmitButtonText(selectedTool);
         });
-        // Set initial button text on page load.
+        // Set initial state on page load.
+        toolSelector.setAttribute('aria-expanded', toolSelector.value === 'formalizer');
         updateSubmitButtonText(toolSelector.value);
     }
 
@@ -158,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkScrollButtonVisibility = () => {
             const scrollThreshold = 10; // A small pixel threshold
             const isAtBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - scrollThreshold;
-            const hasResults = resultContainer.innerText && resultContainer.innerText !== 'Waiting for prompt...';
+            const hasResults = resultContainer.innerText.trim() !== '';
 
             if (!isAtBottom && hasResults) {
                 scrollToBottomButton.classList.add('show');
