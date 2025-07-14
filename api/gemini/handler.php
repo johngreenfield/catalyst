@@ -62,6 +62,17 @@ try {
         case 'task_breakdown':
             $prompt = "Break down the following task into small, manageable steps, with time estimates in minutes. Use {$languageName} for any descriptive text: \"{$text}\"";
             break;
+        case 'brain_dump_organizer':
+            $prompt = "Organize the following unstructured 'brain dump' text. Parse the text to identify tasks, ideas, appointments, and other notes. Structure the output into clear, categorized lists using Markdown.
+
+Possible categories include:
+- ## To-Do List (for actionable items)
+- ## Ideas (for future thoughts)
+- ## Appointments & Events (for scheduled items)
+- ## Notes & Reminders (for general info)
+
+Prioritize the To-Do list. Do not include empty categories. The user's text is in {$languageName}: \"{$text}\"";
+            break;
         case 'tone_analysis':
             $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Offer helpful suggestions. Provide the analysis in {$languageName}: \"{$text}\"";
             break;

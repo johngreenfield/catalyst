@@ -1,9 +1,112 @@
-/* Simple styling for the result container */
+// Custom styles for Catalyst
+
+//== Variables
+//
+//## Variables for theme colors, sizes, and transitions.
+
+$light-bg: #f8f9fa;
+$light-border: #dee2e6;
+$dark-bg: #2b3035;
+$dark-border: #495057;
+$dark-navbar-label: rgba(255, 255, 255, 0.65);
+
+$toggler-icon-width: 25px;
+$toggler-icon-height: 2px;
+$toggler-icon-margin-top: 5px;
+$toggler-animation-duration: 0.2s;
+
+body {
+    min-height: 100vh;
+}
+
+/* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background-color: $light-bg;
+    border: 1px solid $light-border;
     border-radius: .25rem;
     padding: 1rem;
     min-height: 100px;
-    white-space: pre-wrap; /* Allows text to wrap and preserves line breaks */
+    white-space: pre-wrap;
+}
+
+/* Theme-specific overrides using SCSS nesting */
+[data-bs-theme="dark"] {
+    #result-container {
+        background-color: $dark-bg;
+        border-color: $dark-border;
+    }
+
+    .navbar .form-check-label {
+        color: $dark-navbar-label;
+    }
+}
+
+[data-bs-theme="light"] {
+    .navbar {
+        --bs-bg-opacity: 1;
+        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+    }
+}
+
+/* Animated Navbar Toggler */
+.navbar-toggler {
+    border: none;
+    background: transparent !important;
+
+    &:focus {
+        box-shadow: none;
+    }
+
+    .toggler-icon {
+        width: $toggler-icon-width;
+        height: $toggler-icon-height;
+        background-color: currentColor;
+        display: block;
+        transition: all $toggler-animation-duration;
+        position: relative;
+
+        & + .toggler-icon {
+            margin-top: $toggler-icon-margin-top;
+        }
+    }
+
+    &[aria-expanded="true"] {
+        .top-bar {
+            transform: rotate(45deg);
+            top: $toggler-icon-margin-top + $toggler-icon-height;
+        }
+
+        .middle-bar {
+            opacity: 0;
+        }
+
+        .bottom-bar {
+            transform: rotate(-45deg);
+            top: -($toggler-icon-margin-top + $toggler-icon-height);
+        }
+    }
+}
+
+.copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 10;
+}
+
+.scroll-to-bottom-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    width: 50px;
+    height: 50px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+    &.show {
+        opacity: 1;
+        visibility: visible;
+    }
 }

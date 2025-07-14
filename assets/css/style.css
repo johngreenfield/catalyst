@@ -1,92 +1,86 @@
-/* Custom styles for Catalyst */
 body {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: .25rem;
-    padding: 1rem;
-    min-height: 100px;
-    white-space: pre-wrap;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  min-height: 100px;
+  white-space: pre-wrap;
 }
 
-/* Improve the result container in dark mode */
-[data-bs-theme="dark"] #result-container {
-    background-color: #2b3035; /* A slightly lighter dark shade for contrast */
-    border-color: #495057;
+/* Theme-specific overrides using SCSS nesting */
+[data-bs-theme=dark] #result-container {
+  background-color: #2b3035;
+  border-color: #495057;
+}
+[data-bs-theme=dark] .navbar .form-check-label {
+  color: rgba(255, 255, 255, 0.65);
 }
 
-/* Ensures the navbar background color matches the light theme, overriding the default transparent/dark appearance. */
-[data-bs-theme="light"] .navbar {
-    --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
-}
-
-/* Ensure the toggle label is visible in dark mode */
-[data-bs-theme="dark"] .navbar .form-check-label {
-    color: rgba(255, 255, 255, 0.65);
+[data-bs-theme=light] .navbar {
+  --bs-bg-opacity: 1;
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
 }
 
 /* Animated Navbar Toggler */
 .navbar-toggler {
-    border: none;
-    background: transparent !important;
+  border: none;
+  background: transparent !important;
 }
-
 .navbar-toggler:focus {
-    box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
-
-.toggler-icon {
-    width: 25px;
-    height: 2px;
-    background-color: currentColor;
-    display: block;
-    transition: all 0.2s;
-    position: relative;
+.navbar-toggler .toggler-icon {
+  width: 25px;
+  height: 2px;
+  background-color: currentColor;
+  display: block;
+  -webkit-transition: all 0.2s;
+  transition: all 0.2s;
+  position: relative;
 }
-
-.toggler-icon+.toggler-icon {
-    margin-top: 5px;
+.navbar-toggler .toggler-icon + .toggler-icon {
+  margin-top: 5px;
 }
-
-.navbar-toggler[aria-expanded="true"] .top-bar {
-    transform: rotate(45deg);
-    top: 7px;
+.navbar-toggler[aria-expanded=true] .top-bar {
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  top: 7px;
 }
-
-.navbar-toggler[aria-expanded="true"] .middle-bar {
-    opacity: 0;
+.navbar-toggler[aria-expanded=true] .middle-bar {
+  opacity: 0;
 }
-
-.navbar-toggler[aria-expanded="true"] .bottom-bar {
-    transform: rotate(-45deg);
-    top: -7px;
+.navbar-toggler[aria-expanded=true] .bottom-bar {
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  top: -7px;
 }
 
 .copy-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    z-index: 10;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
 }
 
 .scroll-to-bottom-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 100;
-    width: 50px;
-    height: 50px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 100;
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
-
 .scroll-to-bottom-btn.show {
-    opacity: 1;
-    visibility: visible;
+  opacity: 1;
+  visibility: visible;
 }

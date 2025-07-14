@@ -30,7 +30,7 @@ Catalyst offers the following features:
 
 - **Meal Muse (Recipe Suggestion):** Struggling with what to cook using the ingredients you already have? Meal Muse helps you make the most of your kitchen. Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a trip to the store.
 
-- **Brain Dump Organizer (Coming soon):** Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
+- **Brain Dump Organizer:** Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
 
 - **Playlist Generator (Coming soon):** Struggling to find the right soundtrack for focus, relaxation, or motivation? The Playlist Generator takes the guesswork out of choosing music. Simply describe your current mood, energy level, or the task you're working on, and Catalyst will curate a personalized playlist designed to help you get in the zone and stay there.
 
@@ -46,15 +46,15 @@ Here is a quick look at the Catalyst user interface:
 
 This project is built with a combination of modern and robust technologies:
 
-*   **Frontend:**
-    *   ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-    *   ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-    *   ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-    *   ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-*   **Backend:**
-    *   ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
-*   **API:**
-    *   Google Gemini
+**Frontend:**
+*   ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+*   ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+*   ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+*   ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+**Backend:**
+*   ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+**API:**
+*   Google Gemini
 
 ## Installation
 
@@ -113,15 +113,11 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [ ] Test the Tone Analysis and Formalizer feature thoroughly.
-
-- [ ] Implement the Brain Dump Organizer feature.
+- [X] Implement the Brain Dump Organizer feature.
 
 - [ ] Implement the Playlist Generator feature.
 
 - [ ] Prompt improvement and testing in AI Studio.
-
-- [ ] Add ability to choose between Gemini and ChatGPT, different models etc.
 
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
 

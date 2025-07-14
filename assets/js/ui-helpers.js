@@ -21,6 +21,9 @@ export function updateSubmitButtonText(tool) {
         case 'task_breakdown':
             buttonText = 'Break it Down';
             break;
+        case 'brain_dump_organizer':
+            buttonText = 'Organize Dump';
+            break;
         case 'tone_analysis':
             buttonText = 'Analyze Tone';
             break;
