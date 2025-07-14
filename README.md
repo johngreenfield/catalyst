@@ -32,6 +32,10 @@ Catalyst offers the following features:
 
 - **Brain Dump Organizer:** Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
 
+- **Deep Dive (Coming soon):** Feeling stuck on a complex topic or unfamiliar jargon? The Deep Dive feature acts as your personal explainer. It breaks down difficult concepts into simple, easy-to-understand terms, helping you grasp new information quickly and confidently without getting lost in details.
+
+- **Time Planner (Coming soon):** Feeling unsure how to fit your tasks into your day? The Time Planner helps you build a realistic schedule. Provide it with a list of tasks, and it will provide time estimates and help you organize them into a manageable plan. This reduces the mental load of planning and helps you approach your day with confidence.
+
 - **Playlist Generator (Coming soon):** Struggling to find the right soundtrack for focus, relaxation, or motivation? The Playlist Generator takes the guesswork out of choosing music. Simply describe your current mood, energy level, or the task you're working on, and Catalyst will curate a personalized playlist designed to help you get in the zone and stay there.
 
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
@@ -114,17 +118,15 @@ Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
 - [X] Implement the Brain Dump Organizer feature.
-
+- [ ] Implement the Time Planner feature.
+- [ ] Implement the Deep Dive feature.
 - [ ] Implement the Playlist Generator feature.
-
+- [ ] Look into brand-aligned names for features.
+- [ ] Disable the General Assistant unless own API key provided.
 - [ ] Prompt improvement and testing in AI Studio.
-
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
-
 - [ ] Explore potential for multimodal input (e.g., voice input for tasks).
-
 - [ ] Plan for deployment and future scalability.
-
 - [ ] Gather user feedback for iterative improvements.
 
 ## License
