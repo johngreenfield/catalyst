@@ -2,6 +2,21 @@ body {
   min-height: 100vh;
 }
 
+/* Adds a translucent logo watermark over the page content.
+   It's non-interactive so it doesn't interfere with clicks. */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('../img/icon.png') no-repeat center;
+  background-size: contain;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
   background-color: #f8f9fa;
@@ -10,12 +25,27 @@ body {
   padding: 1rem;
   min-height: 100px;
   white-space: pre-wrap;
+  position: relative; /* Needed for placeholder positioning */
+}
+
+/* Styles the placeholder text shown when the result container is empty. */
+#result-container.is-placeholder::before {
+  content: 'Your results will appear here...';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #6c757d; /* Bootstrap's text-muted color */
+  font-style: italic;
 }
 
 /* Theme-specific overrides using SCSS nesting */
 [data-bs-theme=dark] #result-container {
   background-color: #2b3035;
   border-color: #495057;
+}
+[data-bs-theme=dark] #result-container.is-placeholder::before {
+  color: #adb5bd; /* A lighter muted color for dark theme */
 }
 [data-bs-theme=dark] .navbar .form-check-label {
   color: rgba(255, 255, 255, 0.65);
