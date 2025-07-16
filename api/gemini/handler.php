@@ -9,6 +9,9 @@
  * maintainability, and consistency in error handling.
  */
 
+// Set other security headers
+header("X-Content-Type-Options: nosniff");
+
 // Set the response content type to JSON for API-like behavior.
 header('Content-Type: application/json');
 
@@ -16,23 +19,33 @@ header('Content-Type: application/json');
 // IMPORTANT: This assumes `callGeminiApi` in the helper is updated to accept ($prompt, $apiKey, $model).
 include_once 'gemini_helper.php';
 // Use @include_once to prevent fatal errors if config.php doesn't exist.
-// This file should define a constant like: define('GEMINI_API_KEY', 'your_fallback_api_key');
+// This file should define a constant like: define('GEMINI_API_KEY', 'your_fallback_api_key'); 
 @include_once 'config.php';
 
 // --- Determine API Key ---
 $apiKey = null;
+$headers = function_exists('getallheaders') ? getallheaders() : [];
+$authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+
 // 1. Check for user-provided key in Authorization header
-if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Bearer\s(\S+)/', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+if ($authHeader && preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
     $apiKey = $matches[1];
 } 
 // 2. Fallback to the key from config.php if it's defined
 else if (defined('GEMINI_API_KEY')) {
     $apiKey = GEMINI_API_KEY;
+    error_log("Catalyst API: Using fallback API key from config.");
+} else {
+    error_log("Catalyst API: No API key was found or configured.");
 }
 
 try {
     // --- Input Validation ---
     if (empty($apiKey)) {
+        // Log *why* we're throwing this exception - should help identify config issues.
+        if (!defined('GEMINI_API_KEY')) {
+            error_log("Catalyst API: GEMINI_API_KEY constant not defined in config.php");
+        }
         // If after all checks, no API key is available, throw an error.
         throw new Exception('API key is not configured. Please provide one in the settings or configure a fallback key on the server.', 401); // Unauthorized
     }
@@ -143,9 +156,8 @@ EOT;
 echo json_encode(['result' => $generatedText]);
 
 } catch (GeminiApiException $e) {
-    // Handle specific API errors from the helper
     http_response_code($e->getCode());
-    echo json_encode(['error' => $e->getMessage(), 'details' => $e->getDetails()]);
+    echo json_encode(['error' => $e->getMessage(), 'details' => $e->getDetails()]);    
 } catch (Throwable $e) {
     // Catch any other general errors
     $httpCode = is_int($e->getCode()) && $e->getCode() > 0 ? $e->getCode() : 500;

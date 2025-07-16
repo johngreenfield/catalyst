@@ -39,12 +39,18 @@ function setLoadingState(isLoading) {
  * @throws {Error} If the network request fails or the API returns an error.
  */
 async function baseFetch(url, options = {}) {
-  const apiKey = localStorage.getItem('apiKey');
+  // Retrieve the key from the in-memory session store if the function exists.
+  const apiKey = typeof window.getSessionApiKey === 'function' 
+    ? window.getSessionApiKey() 
+    : '';
+
   const headers = { 
     'Content-Type': 'application/json',
     ...options.headers // Allow overriding of default headers
   };
   if (apiKey) {
+      // Log the API key being used for this request.
+      console.log('API Key used for this request:', apiKey); 
       headers['Authorization'] = `Bearer ${apiKey}`;
   }
 

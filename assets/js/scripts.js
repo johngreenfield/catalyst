@@ -244,10 +244,14 @@ document.addEventListener('DOMContentLoaded', () => {
 // PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then(registration => {
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, err => {
-      console.log('ServiceWorker registration failed: ', err);
-    });
+    navigator.serviceWorker.register('/sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        // Log the registration object for detailed inspection
+        console.log('Registration object:', registration);
+      })
+      .catch(err => {
+        console.error('ServiceWorker registration failed: ', err);
+      });
   });
 }
