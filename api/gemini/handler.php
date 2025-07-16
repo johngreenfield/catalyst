@@ -38,7 +38,7 @@ try {
     }
     $rawInput = file_get_contents('php://input');
     $input = json_decode($rawInput, true);
-
+    
     if (json_last_error() !== JSON_ERROR_NONE) {
         throw new Exception('The provided request is not valid JSON.', 400);
     }
@@ -58,12 +58,14 @@ try {
     switch ($tool) {
         case 'general_assistant':
             $prompt = "You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question in {$languageName}: \"{$text}\"";
-            break;
-        case 'task_breakdown':
-            $prompt = "Break down the following task into small, manageable steps, with time estimates in minutes. Use {$languageName} for any descriptive text: \"{$text}\"";
-            break;
+            break;        
+    case 'task_breakdown':
+        $spoons = $input['spoons'] ?? 3;
+        $prompt = "Given a user with {$spoons}/3 spoons of energy, break down the following task into small, manageable steps, with estimated times (adjust estimates based on the user's energy level). Provide the response in {$languageName}: \"{$text}\"";
+        break;
         case 'brain_dump_organizer':
-            $prompt = "Organize the following unstructured 'brain dump' text. Parse the text to identify tasks, ideas, appointments, and other notes. Structure the output into clear, categorized lists using Markdown.
+            $prompt = "Organize the following unstructured 'brain dump' text. Parse the text to identify tasks, ideas, appointments, and other notes. Structure the output into clear, categorized lists using Markdown. Include time estimates for tasks (if discernible from the context).
+
 
 Possible categories include:
 - ## To-Do List (for actionable items)
@@ -71,13 +73,13 @@ Possible categories include:
 - ## Appointments & Events (for scheduled items)
 - ## Notes & Reminders (for general info)
 
-Prioritize the To-Do list. Do not include empty categories. The user's text is in {$languageName}: \"{$text}\"";
+            Prioritize the To-Do list. Do not include empty categories. The user's text is in {$languageName}: \"{$text}\"";
             break;
+
         case 'tone_analysis':
             $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Offer helpful suggestions. Provide the analysis in {$languageName}: \"{$text}\"";
             break;
         case 'formalizer':
-            $formality = $input['formality'] ?? 'more formal';
             // Basic sanitization to prevent unexpected values
             $allowedFormalities = ['more formal', 'more casual', 'like a pirate'];
             if (!in_array($formality, $allowedFormalities, true)) {
@@ -86,11 +88,19 @@ Prioritize the To-Do list. Do not include empty categories. The user's text is i
             $prompt = "Rephrase the following text to be {$formality}. The rephrased text should be in {$languageName}: \"{$text}\"";
             break;
         case 'meal_muse':
-            $prompt = "Take the following list of ingredients and suggest a recipe that uses these ingredients. The recipe should be written in {$languageName}: \"{$text}\"";
-            break;
+        $spoons = $input['spoons'] ?? 3;
+        $prompt = "Considering the user has {$spoons}/3 spoons of energy, suggest a simple and easy-to-prepare recipe using these ingredients (prioritize recipes requiring less effort). Provide the recipe in {$languageName}: \"{$text}\"";
+        break;
+        
         case 'deep_dive':
             $prompt = "You are a research assistant. Provide a comprehensive 'deep dive' into the following topic. The response should be well-structured with clear headings, detailed, and easy to understand for a newcomer. Use Markdown for formatting. The user's topic is in {$languageName}: \"{$text}\"";
             break;
+    case 'time_estimator':
+        $spoons = $input['spoons'] ?? 3; // Default to 3 if not provided
+        $spoonFactor = max(1, 4 - $spoons); // Ensure at least a factor of 1
+            $prompt = "You are a time estimator. Provide an estimated time in minutes for the following task, considering the user may have limited energy (spoons). Multiply your initial estimate by a spoon factor of {$spoonFactor}. The task is in {$languageName}: \"{$text}\"";
+            break;
+
         default:
             throw new Exception("Invalid tool '{$tool}' specified.", 400);
     }
@@ -113,13 +123,13 @@ EOT;
     // --- API Call and Response ---
     // Append snapshot date from config only if it's defined and the model is the specific preview version.
     $fullModelName = (defined('MODEL_SNAPSHOT_DATE') && $model === 'gemini-2.5-flash-lite-preview') ? $model . MODEL_SNAPSHOT_DATE : $model;
-
+    
     // Pass the determined API key and model to the helper function.
     $responseData = callGeminiApi($prompt, $apiKey, $fullModelName);
 
     $generatedText = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Could not extract a valid response from the API result.';
 
-    echo json_encode(['result' => $generatedText]);
+echo json_encode(['result' => $generatedText]);
 
 } catch (GeminiApiException $e) {
     // Handle specific API errors from the helper

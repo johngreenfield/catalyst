@@ -32,32 +32,50 @@ function setLoadingState(isLoading) {
 }
 
 /**
+ * Creates a base fetch request, automatically adding content-type and authorization headers.
+ * @param {string} url The URL to fetch.
+ * @param {object} options Standard fetch options object.
+ * @returns {Promise<object>} The JSON response data.
+ * @throws {Error} If the network request fails or the API returns an error.
+ */
+async function baseFetch(url, options = {}) {
+  const apiKey = localStorage.getItem('apiKey');
+  const headers = { 
+    'Content-Type': 'application/json',
+    ...options.headers // Allow overriding of default headers
+  };
+  if (apiKey) {
+      headers['Authorization'] = `Bearer ${apiKey}`;
+  }
+
+  const response = await fetch(url, {
+      ...options,
+      headers: headers
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+      const errorMessage = data.error || `Request failed with status ${response.status}`;
+      const errorDetails = data.details ? `<br><small>Details: ${JSON.stringify(data.details)}</small>` : ''; // Intentionally includes HTML for alert display
+      throw new Error(errorMessage + errorDetails);
+  }
+
+  return data;
+}
+
+
+/**
  * Fetches the API response from the backend.
  * @param {object} payload - The data to send to the API.
  * @returns {Promise<string>} The result text from the API.
  * @throws {Error} If the network request fails or the API returns an error.
  */
 async function fetchApiResponse(payload) {
-    const endpoint = '/api/gemini/handler.php';
-    const apiKey = localStorage.getItem('apiKey');
-    const headers = { 'Content-Type': 'application/json' };
-    if (apiKey) {
-        headers['Authorization'] = `Bearer ${apiKey}`;
-    }
-
-    const response = await fetch(endpoint, {
+    const data = await baseFetch('/api/gemini/handler.php', {
         method: 'POST',
-        headers: headers,
         body: JSON.stringify(payload)
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        const errorMessage = data.error || `Request failed with status ${response.status}`;
-        const errorDetails = data.details ? `<br><small>Details: ${JSON.stringify(data.details)}</small>` : '';
-        throw new Error(errorMessage + errorDetails);
-    }
 
     if (!data.result) {
         throw new Error('No valid result was returned from the API.');
@@ -70,9 +88,13 @@ async function fetchApiResponse(payload) {
  * Main function to handle the API request based on the selected tool.
  * It orchestrates the process of getting user input, showing a loading state,
  * calling the API, and displaying the result.
- * @param {string} tool The identifier for the selected tool (e.g., 'task_breakdown').
+ * @param {object} payload The payload object for the API request.
+ * @param {string} payload.tool The identifier for the selected tool.
+ * @param {string} payload.text The user's input text.
+ * @param {string} [payload.formality] The formality level for the 'formalizer' tool.
+ * @param {number|string} [payload.spoons] The spoon count for energy-related tools.
  */
-export async function processPrompt(tool) {
+export async function processPrompt(payload) {
     const inputText = document.getElementById('prompt-input').value;
     const resultContainer = document.getElementById('result-container');
     const copyButton = document.getElementById('copy-result-button');
@@ -82,6 +104,10 @@ export async function processPrompt(tool) {
         return;
     }
 
+    resultContainer.classList.remove('is-placeholder');
+    resultContainer.innerHTML = '';
+
+
     // --- Prepare UI for new request ---
     clearStream();
     if (copyButton) copyButton.style.display = 'none';
@@ -90,16 +116,16 @@ export async function processPrompt(tool) {
     setLoadingState(true);
 
     try {
+        // --- 1. Prepare API Request ---
         const model = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
         const language = localStorage.getItem('language') || 'en-GB';
-        const payload = { tool, text: inputText, model, language };
+        payload.model = model;
+        payload.language = language;
 
-        if (tool === 'formalizer') {
-            payload.formality = document.getElementById('formalityLevel').value;
-        }
-
+        // --- 2. Make API Call ---
         const resultText = await fetchApiResponse(payload);
 
+        // --- 3. Stream and Display Result ---
         await streamText(resultContainer, resultText, 40);
 
         if (copyButton) copyButton.style.display = 'block';
