@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
           stopButton = document.getElementById('stop-button'),
           resultContainer = document.getElementById('result-container'),
           copyButton = document.getElementById('copy-result-button'),
-          timeEstimatorOptions = document.getElementById('time-estimator-options'),
+          spoonsOptions = document.getElementById('spoons-options'),
           formalizerOptions = document.getElementById('formalizer-options'),
           promptInput = document.getElementById('prompt-input'),
           helpModalEl = document.getElementById('helpModal'),
@@ -184,22 +184,22 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('change', (event) => {
         if (event.target === toolSelector) {
             const selectedTool = toolSelector.value; // Read the current value here
-            const isSpoonsApplicable = ['time_estimator', 'task_breakdown', 'meal_muse'].includes(selectedTool);
+            const isSpoonsApplicable = ['time_estimator', 'task_breakdown', 'meal_muse'].includes(selectedTool);            
             const isFormalizer = selectedTool === 'formalizer';
 
             switch (selectedTool) {
                 case 'formalizer':
                     formalizerOptions.style.display = 'block';
-                    timeEstimatorOptions.style.display = 'none';
+                    spoonsOptions.style.display = 'none';
                     break;
-                case 'time_estimator':
+            case 'time_estimator':
                 case 'task_breakdown':
                 case 'meal_muse':
-                    timeEstimatorOptions.style.display = 'block';
+                    spoonsOptions.style.display = 'block';
                     formalizerOptions.style.display = 'none';
                     break;
                 default:
-                    timeEstimatorOptions.style.display = 'none';
+                    spoonsOptions.style.display = 'none';
                     formalizerOptions.style.display = 'none';
                     break;
             }
