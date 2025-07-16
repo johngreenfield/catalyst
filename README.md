@@ -118,7 +118,7 @@ Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
 - [X] Implement the Brain Dump Organizer feature.
-- [ ] Implement the Time Estimator feature.
+- [X] Implement the Time Estimator feature.
 - [X] Implement the Deep Dive feature.
 - [ ] Implement the Study Buddy feature.
 - [ ] Implement the Playlist Generator feature.
@@ -128,6 +128,7 @@ Thank you for your interest in contributing to Catalyst!
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
 - [ ] Explore potential for multimodal input (e.g., voice input for tasks).
+- [X] Code review
 - [ ] Plan for deployment and future scalability.
 - [ ] Gather user feedback for iterative improvements.
 
