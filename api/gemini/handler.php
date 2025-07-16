@@ -45,9 +45,19 @@ try {
 
     $tool = $input['tool'] ?? '';
     $text = $input['text'] ?? '';
-    $model = $input['model'] ?? 'gemini-2.5-flash-lite-preview';
-    $language = $input['language'] ?? 'en-GB';
+
+    // --- Strict Input Validation ---
+    // Validate 'model' against an allowlist
+    $allowed_models = ['gemini-2.5-flash-lite-preview', 'gemini-2.5-flash'];
+    $model = in_array($input['model'] ?? '', $allowed_models) ? $input['model'] : 'gemini-2.5-flash-lite-preview';
+
+    // Validate 'language' against an allowlist
+    $allowed_languages = ['en-GB', 'en-US'];
+    $language = in_array($input['language'] ?? '', $allowed_languages) ? $input['language'] : 'en-GB';
     $languageName = ($language === 'en-US') ? 'US English' : 'British English';
+
+    // Sanitize text input to be safe for inclusion in the prompt string
+    $text = trim(filter_var($text, FILTER_UNSAFE_RAW, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH));
 
     if (empty($tool) || empty($text)) {
         throw new Exception('Required parameters "tool" or "text" are missing.', 400);
@@ -81,7 +91,8 @@ Possible categories include:
             break;
         case 'formalizer':
             // Basic sanitization to prevent unexpected values
-            $allowedFormalities = ['more formal', 'more casual', 'like a pirate'];
+            $formality = $input['formality'] ?? 'more formal';
+            $allowedFormalities = ['more formal', 'more casual', 'like a pirate']; // Already a good allowlist
             if (!in_array($formality, $allowedFormalities, true)) {
                 $formality = 'more formal'; // Default to a safe value if invalid input is provided
             }
