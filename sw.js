@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catalyst-cache-v1';
+const CACHE_NAME = 'catalyst-cache-v2';
 const urlsToCache = [
   '/',
   '/index.html',

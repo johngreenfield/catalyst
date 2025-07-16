@@ -3,6 +3,18 @@
  * @param {bootstrap.Modal} settingsModal The Bootstrap modal instance.
  */
 export function initializeSettings(settingsModal) {
+    /**
+     * Holds the user-provided API key for the current session.
+     * It is intentionally not stored in localStorage for security.
+     * @type {string}
+     */
+    let sessionApiKey = '';
+
+    // Make the key accessible to other modules via a getter function.
+    window.getSessionApiKey = () => sessionApiKey;
+
+
+    // --- DOM Element References ---
     const settingsModalEl = document.getElementById('settingsModal');
     const saveSettingsButton = document.getElementById('save-settings-button');
     const apiKeyInput = document.getElementById('apiKeyInput');
@@ -14,7 +26,7 @@ export function initializeSettings(settingsModal) {
     // Populates the settings modal with values from localStorage.
     const loadSettings = () => {
         if (apiKeyInput) {
-            apiKeyInput.value = localStorage.getItem('apiKey') || '';
+            apiKeyInput.value = sessionApiKey;
         }
         if (modelSelector) {
             modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
@@ -31,15 +43,22 @@ export function initializeSettings(settingsModal) {
 
     // Saves the current values from the settings modal to localStorage.
     const saveSettings = () => {
-        if (apiKeyInput && modelSelector && languagePreference && typingEffectToggle) {
-            localStorage.setItem('apiKey', apiKeyInput.value.trim());
+        if (apiKeyInput) {
+            sessionApiKey = apiKeyInput.value.trim();
+        }
+        if (modelSelector) {
             localStorage.setItem('model', modelSelector.value);
+        }
+        if (languagePreference) {
             localStorage.setItem('language', languagePreference.value);
+        }
+        if (typingEffectToggle) {
             // Save the state of the typing effect toggle.
             localStorage.setItem('typingEffectEnabled', typingEffectToggle.checked);
-            if (settingsModal) {
-                settingsModal.hide();
-            }
+        }
+
+        if (settingsModal) {
+            settingsModal.hide();
         }
     };
 
