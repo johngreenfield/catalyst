@@ -5,7 +5,7 @@
  * Version: 0.5
  */
 
-import { updateSubmitButtonText, streamText, clearStream } from './ui-helpers.js';
+import { updateSubmitButtonText, updatePromptPlaceholder, streamText, clearStream } from './ui-helpers.js';
 import { initializeTheme } from './theme.js';
 import { initializeSettings } from './settings.js';
 import { initializeShortcuts } from './shortcuts.js';
@@ -208,12 +208,14 @@ document.addEventListener('DOMContentLoaded', () => {
             toolSelector.setAttribute('aria-expanded', isFormalizer || isSpoonsApplicable);
             // Dynamically update the submit button text to match the selected tool.
             updateSubmitButtonText(selectedTool);
+            updatePromptPlaceholder(selectedTool);
         }
     });
     
     // Set initial state on page load.
     updateSubmitButtonText(toolSelector.value);
-
+    updatePromptPlaceholder(toolSelector.value);
+    
     // --- Scroll-to-Bottom Button Logic ---
     if (scrollToBottomButton && resultContainer) {
         const checkScrollButtonVisibility = () => {
