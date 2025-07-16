@@ -88,6 +88,9 @@ Prioritize the To-Do list. Do not include empty categories. The user's text is i
         case 'meal_muse':
             $prompt = "Take the following list of ingredients and suggest a recipe that uses these ingredients. The recipe should be written in {$languageName}: \"{$text}\"";
             break;
+        case 'deep_dive':
+            $prompt = "You are a research assistant. Provide a comprehensive 'deep dive' into the following topic. The response should be well-structured with clear headings, detailed, and easy to understand for a newcomer. Use Markdown for formatting. The user's topic is in {$languageName}: \"{$text}\"";
+            break;
         default:
             throw new Exception("Invalid tool '{$tool}' specified.", 400);
     }
