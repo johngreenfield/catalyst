@@ -16,19 +16,41 @@ import { processPrompt } from './api.js';
  * This function sets up all initial event listeners and page state once the DOM is fully loaded.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    const submitButton = document.getElementById('submit-button');
-    const clearButton = document.getElementById('clear-button');
-    const toolSelector = document.getElementById('tool-selector');
-    const scrollToBottomButton = document.getElementById('scroll-to-bottom-button');
-    const stopButton = document.getElementById('stop-button');
-    const resultContainer = document.getElementById('result-container');
-    const copyButton = document.getElementById('copy-result-button');
-    const formalizerOptions = document.getElementById('formalizer-options');
-    const promptInput = document.getElementById('prompt-input');
-    const helpModalEl = document.getElementById('helpModal');
-    const settingsModalEl = document.getElementById('settingsModal');
+    // --- DOM Element References ---
+    const submitButton = document.getElementById('submit-button'),
+          clearButton = document.getElementById('clear-button'),
+          toolSelector = document.getElementById('tool-selector'),
+          scrollToBottomButton = document.getElementById('scroll-to-bottom-button'),
+          stopButton = document.getElementById('stop-button'),
+          resultContainer = document.getElementById('result-container'),
+          copyButton = document.getElementById('copy-result-button'),
+          timeEstimatorOptions = document.getElementById('time-estimator-options'),
+          formalizerOptions = document.getElementById('formalizer-options'),
+          promptInput = document.getElementById('prompt-input'),
+          helpModalEl = document.getElementById('helpModal'),
+          settingsModalEl = document.getElementById('settingsModal');
+
     let helpModal;
     let settingsModal;
+
+    /**
+     * A map of tool-specific functions to modify the API payload.
+     * This provides a clean, extensible way to handle tool-specific options.
+     */
+    const toolPayloadModifiers = {
+        formalizer: (payload) => {
+            payload.formality = document.getElementById('formalityLevel').value;
+        },
+        time_estimator: (payload) => {
+            payload.spoons = document.getElementById('spoons-select').value;
+        },
+        task_breakdown: (payload) => {
+            payload.spoons = document.getElementById('spoons-select').value;
+        },
+        meal_muse: (payload) => {
+            payload.spoons = document.getElementById('spoons-select').value;
+        },
+    };
 
     if (helpModalEl) {
         helpModal = new bootstrap.Modal(helpModalEl);
@@ -42,7 +64,17 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.addEventListener('click', () => {
             const selectedTool = toolSelector.value;
             resultContainer.classList.remove('is-placeholder');
-            processPrompt(selectedTool);
+            
+            // Prepare the payload object with common and tool-specific parameters
+            const payload = {
+                tool: selectedTool,
+                text: promptInput.value,
+            };
+             // Apply tool-specific modifications, if any
+            if (toolPayloadModifiers[selectedTool]) {
+                toolPayloadModifiers[selectedTool](payload);
+            }           
+            processPrompt(payload);
         });
     }
 
@@ -143,21 +175,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (toolSelector) {
-        toolSelector.addEventListener('change', () => {
-            const selectedTool = toolSelector.value;
+    // Attach a single 'change' listener to the document for event delegation.
+    document.addEventListener('change', (event) => {
+        if (event.target === toolSelector) {
+            const selectedTool = toolSelector.value; // Read the current value here
+            const isSpoonsApplicable = ['time_estimator', 'task_breakdown', 'meal_muse'].includes(selectedTool);
             const isFormalizer = selectedTool === 'formalizer';
-            // Toggles the visibility of the formality level dropdown.
-            formalizerOptions.style.display = isFormalizer ? 'block' : 'none';
+
+            switch (selectedTool) {
+                case 'formalizer':
+                    formalizerOptions.style.display = 'block';
+                    timeEstimatorOptions.style.display = 'none';
+                    break;
+                case 'time_estimator':
+                case 'task_breakdown':
+                case 'meal_muse':
+                    timeEstimatorOptions.style.display = 'block';
+                    formalizerOptions.style.display = 'none';
+                    break;
+                default:
+                    timeEstimatorOptions.style.display = 'none';
+                    formalizerOptions.style.display = 'none';
+                    break;
+            }
+            
             // Update ARIA attribute to inform assistive tech that the select controls another element.
-            toolSelector.setAttribute('aria-expanded', isFormalizer);
+            toolSelector.setAttribute('aria-expanded', isFormalizer || isSpoonsApplicable);
             // Dynamically update the submit button text to match the selected tool.
             updateSubmitButtonText(selectedTool);
-        });
-        // Set initial state on page load.
-        toolSelector.setAttribute('aria-expanded', toolSelector.value === 'formalizer');
-        updateSubmitButtonText(toolSelector.value);
-    }
+        }
+    });
+    
+    // Set initial state on page load.
+    updateSubmitButtonText(toolSelector.value);
 
     // --- Scroll-to-Bottom Button Logic ---
     if (scrollToBottomButton && resultContainer) {
@@ -190,3 +240,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeSettings(settingsModal);
     initializeShortcuts(helpModal, settingsModal);
 });
+
+// PWA Service Worker Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(registration => {
+      console.log('ServiceWorker registration successful with scope: ', registration.scope);
+    }, err => {
+      console.log('ServiceWorker registration failed: ', err);
+    });
+  });
+}

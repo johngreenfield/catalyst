@@ -33,18 +33,30 @@ export function updateSubmitButtonText(tool) {
         case 'meal_muse':
             buttonText = 'Suggest Recipe';
             break;
+        case 'deep_dive':
+            buttonText = 'Dive Deep';
+            break;
+        case 'time_estimator':
+            buttonText = 'Estimate Time';
+            break;
+        default:
+            break;
     }
     buttonTextSpan.textContent = buttonText;
 }
 
 /**
- * Simulates a word-by-word streaming effect for the result text.
+ * Renders text into an element. If the 'typingEffectEnabled' setting is true,
+ * it simulates a word-by-word streaming effect. Otherwise, it renders the
+ * full text immediately. The text is sanitized before being parsed as Markdown.
  * @param {HTMLElement} element The container element to display the text in.
  * @param {string} text The full text to stream.
  * @param {number} [speed=40] The delay in milliseconds between each part.
  * @returns {Promise<void>} A promise that resolves when the streaming is complete.
  */
-export function streamText(element, text, speed = 40) {
+const DEFAULT_STREAMING_SPEED = 40; // Milliseconds
+export function streamText(element, text, speed = DEFAULT_STREAMING_SPEED) {
+
     return new Promise(resolve => {
         clearStream(); // This will also clear any lingering `streamResolve`
         streamResolve = resolve; // Store the new resolve function
@@ -55,7 +67,8 @@ export function streamText(element, text, speed = 40) {
         if (!typingEffectEnabled) {
             // If typing effect is disabled, display the full text immediately.
             // The `marked` library is loaded from a CDN in index.html.
-            element.innerHTML = marked.parse(text);
+            const cleanText = DOMPurify.sanitize(text); // Sanitize the text
+            element.innerHTML = marked.parse(cleanText); // Then parse and render
             if (streamResolve) {
                 streamResolve();
                 streamResolve = null;
@@ -74,7 +87,8 @@ export function streamText(element, text, speed = 40) {
                 currentText += parts[i];
                 // On each tick, parse the accumulated markdown text and render it as HTML.
                 // The `marked` library is loaded from a CDN in index.html.
-                element.innerHTML = marked.parse(currentText);
+                const cleanCurrentText = DOMPurify.sanitize(currentText); // Sanitize
+                element.innerHTML = marked.parse(cleanCurrentText); // Then parse and render
                 i++;
             } else {
                 clearInterval(streamIntervalId);

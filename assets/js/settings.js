@@ -11,6 +11,7 @@ export function initializeSettings(settingsModal) {
     const languagePreference = document.getElementById('languagePreference');
     const typingEffectToggle = document.getElementById('typingEffectToggle');
 
+    // Populates the settings modal with values from localStorage.
     const loadSettings = () => {
         if (apiKeyInput) {
             apiKeyInput.value = localStorage.getItem('apiKey') || '';
@@ -28,6 +29,7 @@ export function initializeSettings(settingsModal) {
         }
     };
 
+    // Saves the current values from the settings modal to localStorage.
     const saveSettings = () => {
         if (apiKeyInput && modelSelector && languagePreference && typingEffectToggle) {
             localStorage.setItem('apiKey', apiKeyInput.value.trim());
