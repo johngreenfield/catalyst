@@ -76,58 +76,42 @@ try {
         throw new Exception('Required parameters "tool" or "text" are missing.', 400);
     }
 
+    // --- Get Optional, Tool-Specific Parameters ---
+    $spoons = (int)($input['spoons'] ?? 3); // Cast to int for safety
+    $formality = $input['formality'] ?? 'more formal';
+    $allowedFormalities = ['more formal', 'more casual', 'like a pirate'];
+    if (!in_array($formality, $allowedFormalities, true)) {
+        $formality = 'more formal'; // Default to a safe value if invalid input is provided
+    }
+
     // --- Prompt Construction ---
-    $prompt = '';
-    switch ($tool) {
-        case 'general_assistant':
-            $prompt = "You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question in {$languageName}: \"{$text}\"";
-            break;        
-    case 'task_breakdown':
-        $spoons = $input['spoons'] ?? 3;
-        $prompt = "Given a user with {$spoons}/3 spoons of energy, break down the following task into small, manageable steps, with estimated times (adjust estimates based on the user's energy level). Provide the response in {$languageName}: \"{$text}\"";
-        break;
-        case 'brain_dump_organizer':
-            $prompt = "Organize the following unstructured 'brain dump' text. Parse the text to identify tasks, ideas, appointments, and other notes. Structure the output into clear, categorized lists using Markdown. Include time estimates for tasks (if discernible from the context).
+    $promptBuilders = [
+        'general_assistant' => fn() => "You are a general assistant who specialises in helping neurodivergent people achieve their goals. Answer the following question in {$languageName}: \"{$text}\"",
+        'task_breakdown' => fn() => "Given a user with {$spoons}/3 spoons of energy, break down the following task into small, manageable steps, with estimated times (adjust estimates based on the user's energy level). Provide the response in {$languageName}: \"{$text}\"",
+        'brain_dump_organizer' => fn() => "Organize the following unstructured 'brain dump' text. Parse the text to identify tasks, ideas, appointments, and other notes. Structure the output into clear, categorized lists using Markdown. Include time estimates for tasks (if discernible from the context).
 
 
 Possible categories include:
 - ## To-Do List (for actionable items)
 - ## Ideas (for future thoughts)
 - ## Appointments & Events (for scheduled items)
-- ## Notes & Reminders (for general info)
+ - ## Notes & Reminders (for general info)\n
+Prioritize the To-Do list. Do not include empty categories. The user's text is in {$languageName}: \"{$text}\"",
+        'tone_analysis' => fn() => "Analyze the tone of the following text and suggest how it might be perceived. Offer helpful suggestions. Provide the analysis in {$languageName}: \"{$text}\"",
+        'formalizer' => fn() => "Rephrase the following text to be {$formality}. The rephrased text should be in {$languageName}: \"{$text}\"",
+        'meal_muse' => fn() => "Considering the user has {$spoons}/3 spoons of energy, suggest a simple and easy-to-prepare recipe using these ingredients (prioritize recipes requiring less effort). Provide the recipe in {$languageName}: \"{$text}\"",
+        'deep_dive' => fn() => "You are a research assistant. Provide a comprehensive 'deep dive' into the following topic. The response should be well-structured with clear headings, detailed, and easy to understand for a newcomer. Use Markdown for formatting. The user's topic is in {$languageName}: \"{$text}\"",
+        'time_estimator' => function () use ($spoons, $languageName, $text) {
+            $spoonFactor = max(1, 4 - $spoons); // Ensure at least a factor of 1
+            return "You are a time estimator. Provide an estimated time in minutes for the following task, considering the user may have limited energy (spoons). Multiply your initial estimate by a spoon factor of {$spoonFactor}. The task is in {$languageName}: \"{$text}\"";
+        }
+    ];
 
-            Prioritize the To-Do list. Do not include empty categories. The user's text is in {$languageName}: \"{$text}\"";
-            break;
-
-        case 'tone_analysis':
-            $prompt = "Analyze the tone of the following text and suggest how it might be perceived. Offer helpful suggestions. Provide the analysis in {$languageName}: \"{$text}\"";
-            break;
-        case 'formalizer':
-            // Basic sanitization to prevent unexpected values
-            $formality = $input['formality'] ?? 'more formal';
-            $allowedFormalities = ['more formal', 'more casual', 'like a pirate']; // Already a good allowlist
-            if (!in_array($formality, $allowedFormalities, true)) {
-                $formality = 'more formal'; // Default to a safe value if invalid input is provided
-            }
-            $prompt = "Rephrase the following text to be {$formality}. The rephrased text should be in {$languageName}: \"{$text}\"";
-            break;
-        case 'meal_muse':
-        $spoons = $input['spoons'] ?? 3;
-        $prompt = "Considering the user has {$spoons}/3 spoons of energy, suggest a simple and easy-to-prepare recipe using these ingredients (prioritize recipes requiring less effort). Provide the recipe in {$languageName}: \"{$text}\"";
-        break;
-        
-        case 'deep_dive':
-            $prompt = "You are a research assistant. Provide a comprehensive 'deep dive' into the following topic. The response should be well-structured with clear headings, detailed, and easy to understand for a newcomer. Use Markdown for formatting. The user's topic is in {$languageName}: \"{$text}\"";
-            break;
-    case 'time_estimator':
-        $spoons = $input['spoons'] ?? 3; // Default to 3 if not provided
-        $spoonFactor = max(1, 4 - $spoons); // Ensure at least a factor of 1
-            $prompt = "You are a time estimator. Provide an estimated time in minutes for the following task, considering the user may have limited energy (spoons). Multiply your initial estimate by a spoon factor of {$spoonFactor}. The task is in {$languageName}: \"{$text}\"";
-            break;
-
-        default:
-            throw new Exception("Invalid tool '{$tool}' specified.", 400);
+    if (!isset($promptBuilders[$tool])) {
+        throw new Exception("Invalid tool '{$tool}' specified.", 400);
     }
+
+    $prompt = $promptBuilders[$tool]();
 
     // Prepend a system instruction to guide the model's output style.
     $systemInstruction = <<<EOT
@@ -159,8 +143,9 @@ echo json_encode(['result' => $generatedText]);
     http_response_code($e->getCode());
     echo json_encode(['error' => $e->getMessage(), 'details' => $e->getDetails()]);    
 } catch (Throwable $e) {
-    // Catch any other general errors
+    error_log("Catalyst Unhandled Error: " . $e->getMessage());
+    // Return a generic error to the client to avoid leaking implementation details.
     $httpCode = is_int($e->getCode()) && $e->getCode() > 0 ? $e->getCode() : 500;
     http_response_code($httpCode);
-    echo json_encode(['error' => $e->getMessage()]);
+    echo json_encode(['error' => 'An unexpected server error occurred.']);
 }
