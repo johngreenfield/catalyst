@@ -91,6 +91,23 @@ async function fetchApiResponse(payload) {
 }
 
 /**
+ * Displays a formatted error message in a specified container.
+ * @param {Error} error The error object to handle.
+ * @param {HTMLElement} container The DOM element to display the error message in.
+ */
+function handleApiError(error, container) {
+    console.error('API Error:', error);
+    let alertMessage = '';
+    // Check for network errors (e.g., server is down)
+    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        alertMessage = `<div class="alert alert-warning" role="alert"><strong>Network Error:</strong> Could not connect to the server. Please check your internet connection.</div>`;
+    } else {
+        // Handle API-specific or other general errors
+        alertMessage = `<div class="alert alert-danger" role="alert"><strong>An error occurred:</strong><br>${error.message}</div>`;
+    }
+    container.innerHTML = alertMessage;
+}
+/**
  * Main function to handle the API request based on the selected tool.
  * It orchestrates the process of getting user input, showing a loading state,
  * calling the API, and displaying the result.
@@ -136,14 +153,7 @@ export async function processPrompt(payload) {
 
         if (copyButton) copyButton.style.display = 'block';
     } catch (error) {
-        console.error('Error:', error);
-        let alertMessage = '';
-        if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-            alertMessage = `<div class="alert alert-warning" role="alert"><strong>Network Error:</strong> Could not connect to the server. Please check your internet connection.</div>`;
-        } else {
-            alertMessage = `<div class="alert alert-danger" role="alert"><strong>An error occurred:</strong><br>${error.message}</div>`;
-        }
-        resultContainer.innerHTML = alertMessage;
+        handleApiError(error, resultContainer);
     } finally {
         setLoadingState(false);
     }

@@ -64,6 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
         submitButton.addEventListener('click', () => {
             const selectedTool = toolSelector.value;
             resultContainer.classList.remove('is-placeholder');
+
+            if (promptInput.value.length > 2000) { // Example: 2000 character limit
+                alert('Prompt is too long. Please limit your input to 2000 characters.');
+                return;
+            }
             
             // Prepare the payload object with common and tool-specific parameters
             const payload = {
