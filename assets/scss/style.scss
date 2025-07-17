@@ -1,79 +1,114 @@
-// Custom styles for Catalyst
-
-//== Variables
-//
-//## Variables for theme colors, sizes, and transitions.
-
-$light-bg: #f8f9fa;
-$light-border: #dee2e6;
-$dark-bg: #2b3035;
-$dark-border: #495057;
-$dark-navbar-label: rgba(255, 255, 255, 0.65);
-
-$toggler-icon-width: 25px;
-$toggler-icon-height: 2px;
-$toggler-icon-margin-top: 5px;
-$toggler-animation-duration: 0.2s;
+$color_1: #6c757d;
+$color_2: #adb5bd;
+$color_3: rgba(255, 255, 255, 0.65);
+$background-color_1: #f8f9fa;
+$background-color_2: #2b3035;
+$background-color_3: rgba(var(--bs-light-rgb), var(--bs-bg-opacity));
+$background-color_4: currentColor;
+$border-color_1: #495057;
 
 body {
-    min-height: 100vh;
+	min-height: 100vh;
+    
+    /* Adds a translucent logo watermark over the page content.
+   It's non-interactive so it doesn't interfere with clicks. */
+	&::before {
+		content: '';
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: url('../img/icon.png') no-repeat center;
+		background-size: contain;
+		opacity: 0.05;
+		pointer-events: none;
+	}
 }
 
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
-    background-color: $light-bg;
-    border: 1px solid $light-border;
-    border-radius: .25rem;
-    padding: 1rem;
-    min-height: 100px;
-    white-space: pre-wrap;
+	background-color: $background-color_1;
+	border: 1px solid #dee2e6;
+	border-radius: 0.25rem;
+	padding: 1rem;
+	min-height: 100px;
+	white-space: pre-wrap;
+	position: relative;
+
+    /* Styles the placeholder text shown when the result container is empty. */
+    &.is-placeholder {
+        &::before {
+            content: "Hi, I'm Catalyst, your executive function assistant.\AWhenever you're ready, select a tool above, and we'll dive in!";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: $color_1;
+            font-style: italic;
+            width: 90%;
+            text-align: center;
+        }
+    }
 }
 
-/* Theme-specific overrides using SCSS nesting */
-[data-bs-theme="dark"] {
-    #result-container {
-        background-color: $dark-bg;
-        border-color: $dark-border;
-    }
+/* Theme-specific overrides */
+[data-bs-theme=dark] {
+	#result-container {
+		background-color: $background-color_2;
+		border-color: $border-color_1;
+	}
 
-    .navbar .form-check-label {
-        color: $dark-navbar-label;
-    }
+	#result-container.is-placeholder {
+		&::before {
+			color: $color_2;
+		}
+	}
+
+	.navbar {
+		.form-check-label {
+			color: $color_3;
+		}
+	}
 }
 
-[data-bs-theme="light"] {
-    .navbar {
-        --bs-bg-opacity: 1;
-        background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
-    }
+[data-bs-theme=light] {
+	.navbar {
+		--bs-bg-opacity: 1;
+		background-color: $background-color_3 !important;
+	}
 }
 
 /* Animated Navbar Toggler */
 .navbar-toggler {
-    border: none;
-    background: transparent !important;
+	border: none;
+	background: transparent !important;
 
-    &:focus {
-        box-shadow: none;
-    }
+	&:focus {
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
 
-    .toggler-icon {
-        width: $toggler-icon-width;
-        height: $toggler-icon-height;
-        background-color: currentColor;
-        display: block;
-        transition: all $toggler-animation-duration;
-        position: relative;
+	.toggler-icon {
+		width: 25px;
+		height: 2px;
+		background-color: $background-color_4;
+		display: block;
+		-webkit-transition: all 0.2s;
+		transition: all 0.2s;
+		position: relative;
+		+ {
+			.toggler-icon {
+				margin-top: 5px;
+			}
+		}
+	}
 
-        & + .toggler-icon {
-            margin-top: $toggler-icon-margin-top;
-        }
-    }
-
-    &[aria-expanded="true"] {
+    &[aria-expanded=true] {
         .top-bar {
+            -webkit-transform: rotate(45deg);
             transform: rotate(45deg);
-            top: $toggler-icon-margin-top + $toggler-icon-height;
+            top: 7px;
         }
 
         .middle-bar {
@@ -81,32 +116,36 @@ body {
         }
 
         .bottom-bar {
+            -webkit-transform: rotate(-45deg);
             transform: rotate(-45deg);
-            top: -($toggler-icon-margin-top + $toggler-icon-height);
+            top: -7px;
         }
     }
 }
 
+/* Copy button */
 .copy-button {
-    position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
-    z-index: 10;
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 10;
 }
 
+/* Scroll to bottom button */
 .scroll-to-bottom-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 100;
-    width: 50px;
-    height: 50px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 100;
+	width: 50px;
+	height: 50px;
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 
     &.show {
-        opacity: 1;
-        visibility: visible;
+	    opacity: 1;
+	    visibility: visible;
     }
 }
