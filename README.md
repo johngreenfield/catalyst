@@ -2,7 +2,7 @@
 
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
-Catalyst is designed to be your trusted executive function assistant with the aim to help you effortlessly kickstart tasks, break through mental blocks, and boost your efficiency. Leveraging the cutting-edge capabilities of Google's Gemini API, Catalyst provides intuitive, AI-powered functionalities that support neurodivergent individuals in navigating their daily responsibilities and organizing their thoughts.
+Catalyst is designed to be your trusted executive function assistant with the aim to help you effortlessly kickstart tasks, break through mental blocks, and boost your efficiency. Leveraging the cutting-edge capabilities of Google's Gemini API, Catalyst provides intuitive, AI-powered functionalities that support neurodivergent individuals in navigating their daily responsibilities and organizing their thoughts. It's built to empower you to conquer daily challenges and achieve your goals.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ Catalyst is designed to be your trusted executive function assistant with the ai
 
 Catalyst is a web application that transforms how you approach complex tasks and manage information. It acts as a bridge between your needs and Gemini's advanced natural language understanding and generation, delivering structured, actionable insights that enhance your organization, focus, and overall productivity.
 
-Catalyst offers the following features:
+Catalyst currently offers the following features:
 
 - **General Assistant:** Your go-to tool for quick questions and general support. Whether you need to draft a quick email, understand a concept, or just need a starting point for a thought, the General Assistant provides clear, helpful, and empathetic responses tailored to support neurodivergent ways of thinking.
 
@@ -28,15 +28,17 @@ Catalyst offers the following features:
 
 - **Formalizer (Text Rephrasing & Style Adjustment):** Need to adjust the style of your writing? The Formalizer allows you to rephrase text based on your desired formality — whether you need it casual, professional, or highly formal.
 
-- **Meal Muse (Recipe Suggestion):** Struggling with what to cook using the ingredients you already have? Meal Muse helps you make the most of your kitchen. Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a trip to the store.
+- **Meal Muse (Recipe Suggestion):** Make the most of your kitchen! Simply input a list of ingredients you have on hand, and Catalyst will suggest creative and delicious recipe ideas, helping you reduce food waste and inspire your next meal without a store trip.
 
 - **Brain Dump Organizer:** Turn chaotic thoughts into structured clarity. Dump all your free-form ideas into the Compiler, and Catalyst will organize them into coherent lists, prioritizing actionable items and helping you make sense of your mental landscape.
 
 - **Deep Dive:** Feeling stuck on a complex topic or unfamiliar jargon? The Deep Dive feature acts as your personal explainer. It breaks down difficult concepts into simple, easy-to-understand terms, helping you grasp new information quickly and confidently without getting lost in details.
 
-- **Time Estimator:** Feeling unsure how to fit your tasks into your day? The Time Planner helps you build a realistic schedule. Provide it with a list of tasks, and it will provide time estimates and help you organize them into a manageable plan. This reduces the mental load of planning and helps you approach your day with confidence.
+- **Time Estimator:** Feeling unsure how to fit your tasks into your day? The Time Estimator helps you build a realistic schedule. Provide it with a list of tasks, and it will provide time estimates and help you organize them into a manageable plan. This reduces the mental load of planning and helps you approach your day with confidence.
 
-- **Playlist Generator (Coming soon):** Struggling to find the right soundtrack for focus, relaxation, or motivation? The Playlist Generator takes the guesswork out of choosing music. Simply describe your current mood, energy level, or the task you're working on, and Catalyst will curate a personalized playlist designed to help you get in the zone and stay there.
+- **Decision Helper (Coming Soon):** Navigate tricky choices with ease. Present your dilemma, and Catalyst will assist you in clarifying options, outlining benefits and drawbacks, and structuring your decision-making process. Gain the clarity needed to choose confidently and avoid procrastination.
+
+Version 2 will be rebuilt from the ground up to include brand new functionality and the ability to converse back and forth.
 
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
 
@@ -118,16 +120,18 @@ Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
 - [ ] Implement the Decision Helper feature.
-- [ ] Refactor script.js, seperate out event handlers, clipboard logic etc.
 - [ ] Disable the General Assistant unless own API key provided.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
 - [ ] Plan for deployment and future scalability.
 - [ ] Gather user feedback for iterative improvements.
+- [ ] Add Troubleshooting section to Readme.
 
 ## Version 2
 - [ ] Implement the Study Buddy feature.
 - [ ] Implement the Playlist Generator feature.
+- [ ] Add ability for conversational interaction.
+- [ ] Add Notes feature for storing helpful output.
 - [ ] Look into brand-aligned names for features.
 - [ ] Add localization.
 - [ ] Explore potential for multimodal input (e.g., voice input for tasks).
