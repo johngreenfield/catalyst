@@ -16,6 +16,21 @@ body::before {
   pointer-events: none;
 }
 
+.logo {
+  max-width: 100px;
+  height: auto;
+  width: 90%;
+}
+
+header .logo {
+  max-width: 250px; /* Adjust this initial max-width as per your current logo size */
+  height: auto;
+  display: block;
+  margin: 0 auto 0 auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
   background-color: #f8f9fa;
@@ -41,6 +56,14 @@ body::before {
 }
 
 /* Theme-specific overrides */
+[data-bs-theme=dark] body::before {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
+[data-bs-theme=dark] .logo {
+  -webkit-filter: invert(100%);
+          filter: invert(100%);
+}
 [data-bs-theme=dark] #result-container {
   background-color: #2b3035;
   border-color: #495057;

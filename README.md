@@ -117,21 +117,20 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [X] Implement the Brain Dump Organizer feature.
-- [X] Implement the Time Estimator feature.
-- [X] Implement the Deep Dive feature.
-- [ ] Implement the Study Buddy feature.
-- [ ] Implement the Playlist Generator feature.
-- [X] Code review
+- [ ] Implement the Decision Helper feature.
 - [ ] Refactor script.js, seperate out event handlers, clipboard logic etc.
-- [ ] Look into brand-aligned names for features.
 - [ ] Disable the General Assistant unless own API key provided.
-- [ ] Add localization.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
-- [ ] Explore potential for multimodal input (e.g., voice input for tasks).
 - [ ] Plan for deployment and future scalability.
 - [ ] Gather user feedback for iterative improvements.
+
+## Version 2
+- [ ] Implement the Study Buddy feature.
+- [ ] Implement the Playlist Generator feature.
+- [ ] Look into brand-aligned names for features.
+- [ ] Add localization.
+- [ ] Explore potential for multimodal input (e.g., voice input for tasks).
 
 ## License
 
