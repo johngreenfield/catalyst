@@ -26,6 +26,23 @@ body {
 	}
 }
 
+.logo {
+	max-width: 100px;
+	height: auto;
+	width: 90%;
+}
+
+header {
+	.logo {
+		max-width: 250px; /* Adjust this initial max-width as per your current logo size */
+		height: auto;
+		display: block;
+		margin: 0 auto 0 auto;
+		padding: 0 1rem;
+		width: 100%;
+	}
+}
+
 /* Styles the container for API results, ensuring it's readable and preserves formatting like newlines. */
 #result-container {
 	background-color: $background-color_1;
@@ -54,6 +71,16 @@ body {
 
 /* Theme-specific overrides */
 [data-bs-theme=dark] {
+	body {
+		&::before {
+			filter: invert(100%);
+		}
+	}
+
+	.logo {
+		filter: invert(100%);
+	}
+
 	#result-container {
 		background-color: $background-color_2;
 		border-color: $border-color_1;
