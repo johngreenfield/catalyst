@@ -26,7 +26,7 @@ header .logo {
   max-width: 250px; /* Adjust this initial max-width as per your current logo size */
   height: auto;
   display: block;
-  margin: 0 auto 0 auto;
+  margin: 1rem auto 1rem auto;
   padding: 0 1rem;
   width: 100%;
 }
@@ -37,7 +37,7 @@ header .logo {
   border: 1px solid #dee2e6;
   border-radius: 0.25rem;
   padding: 1rem;
-  min-height: 100px;
+  min-height: 150px;
   white-space: pre-wrap;
   position: relative;
   /* Styles the placeholder text shown when the result container is empty. */
