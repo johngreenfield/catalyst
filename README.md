@@ -2,7 +2,7 @@
 
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
 
-Catalyst is designed to be your trusted executive function assistant with the aim to help you effortlessly kickstart tasks, break through mental blocks, and boost your efficiency. Leveraging the cutting-edge capabilities of Google's Gemini API, Catalyst provides intuitive, AI-powered functionalities that support neurodivergent individuals in navigating their daily responsibilities and organizing their thoughts. It's built to empower you to conquer daily challenges and achieve your goals.
+Catalyst is designed to be your trusted executive function assistant with the aim to help you effortlessly kickstart tasks, break through mental blocks, and boost your efficiency. Leveraging the cutting-edge capabilities of Google's Gemini API, Catalyst provides intuitive, AI-powered functionalities that support neurodivergent individuals in navigating their daily responsibilities and organizing their thoughts. TLDR: It's built to empower you to conquer daily challenges and achieve your goals.
 
 ## Table of Contents
 
@@ -57,8 +57,10 @@ This project is built with a combination of modern and robust technologies:
 *   ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 *   ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 *   ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
 **Backend:**
 *   ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+
 **API:**
 *   Google Gemini
 
@@ -122,7 +124,6 @@ Thank you for your interest in contributing to Catalyst!
 - [ ] Implement the Decision Helper feature.
 - [ ] Disable the General Assistant unless own API key provided.
 - [ ] Prompt improvement and testing in AI Studio.
-- [ ] Focus on UI/UX refinements, particularly for accessibility and simplicity.
 - [ ] Plan for deployment and future scalability.
 - [ ] Gather user feedback for iterative improvements.
 - [ ] Add Troubleshooting section to Readme.
