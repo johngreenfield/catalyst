@@ -1,0 +1,88 @@
+// _components.scss
+// Contains styles for self-contained, reusable components like buttons, togglers, etc.
+
+/* Custom Bootstrap Component Overrides */
+.btn-danger {
+	// Override Bootstrap's CSS variables for .btn-danger with an accessible color
+	--bs-btn-color: #fff;
+	--bs-btn-bg: #{$catalyst-danger};
+	--bs-btn-border-color: #{$catalyst-danger};
+	--bs-btn-hover-bg: #{darken($catalyst-danger, 10%)};
+	--bs-btn-hover-border-color: #{darken($catalyst-danger, 12%)};
+	--bs-btn-active-bg: #{darken($catalyst-danger, 15%)};
+	--bs-btn-active-border-color: #{darken($catalyst-danger, 17%)};
+	--bs-btn-focus-shadow-rgb: #{red($catalyst-danger)}, #{green($catalyst-danger)}, #{blue($catalyst-danger)};
+}
+
+// Ensure form controls use the themed focus ring. This works for both themes
+// because it uses CSS variables that are defined within each theme's scope.
+.form-control:focus, .form-select:focus, .form-check-input:focus {
+	border-color: var(--bs-primary);
+	box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Animated Navbar Toggler */
+.navbar-toggler {
+	border: none;
+	background: transparent !important;
+
+	&:focus {
+		box-shadow: none;
+	}
+
+	.toggler-icon {
+		width: 25px;
+		height: 2px;
+		background-color: var(--bs-primary);
+		display: block;
+		transition: all 0.2s;
+		position: relative;
+	}
+
+	// Selects a toggler icon that immediately follows another toggler icon
+	.toggler-icon + .toggler-icon {
+		margin-top: 5px;
+	}
+
+	&[aria-expanded=true] {
+		.top-bar {
+			transform: rotate(45deg);
+			top: 7px;
+		}
+
+		.middle-bar {
+			opacity: 0;
+		}
+
+		.bottom-bar {
+			transform: rotate(-45deg);
+			top: -7px;
+		}
+	}
+}
+
+/* Positions the copy button at the top-right corner of its parent container. */
+.copy-button {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 10;
+}
+
+/* A floating action button to scroll to the bottom of the page, hidden by default. */
+.scroll-to-bottom-btn {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 100;
+	width: 50px;
+	height: 50px;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+	&.show {
+		opacity: 1;
+		visibility: visible;
+	}
+}
