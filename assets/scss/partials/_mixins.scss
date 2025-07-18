@@ -1,0 +1,55 @@
+// _mixins.scss
+
+/// Generates the CSS variables for a Bootstrap theme's primary and link colors.
+/// @param {color} $primary - The primary color for the theme.
+/// @param {color} $link-hover - The color for links on hover.
+@mixin theme-colors($primary, $link-hover) {
+	--bs-primary: #{$primary};
+	--bs-primary-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+	--bs-link-color: #{$primary};
+	--bs-link-color-rgb: #{red($primary)}, #{green($primary)}, #{blue($primary)};
+	--bs-link-hover-color: #{$link-hover};
+	--bs-link-hover-color-rgb: #{red($link-hover)}, #{green($link-hover)}, #{blue($link-hover)};
+}
+
+/// Generates the CSS variables for a Bootstrap .btn-primary override.
+/// @param {color} $bg - The background color of the button.
+/// @param {color} $color [#fff] - The text color of the button.
+@mixin button-variant($bg, $color: #fff) {
+	--bs-btn-bg: #{$bg};
+	--bs-btn-border-color: #{$bg};
+	--bs-btn-color: #{$color};
+	--bs-btn-hover-color: #{$color};
+	--bs-btn-active-color: #{$color};
+	--bs-btn-hover-bg: #{darken($bg, 10%)};
+	--bs-btn-hover-border-color: #{darken($bg, 12%)};
+	--bs-btn-active-bg: #{darken($bg, 15%)};
+	--bs-btn-active-border-color: #{darken($bg, 17%)};
+	--bs-btn-focus-shadow-rgb: #{red($bg)}, #{green($bg)}, #{blue($bg)};
+}
+
+/// Generates the CSS variables for Bootstrap accordion overrides.
+/// @param {color} $active-bg - The background color for an active accordion button.
+/// @param {color} $active-color - The text and icon color for an active accordion button.
+@mixin accordion-variant($active-bg, $active-color) {
+	--bs-accordion-button-active-bg: #{$active-bg};
+	--bs-accordion-button-active-color: #{$active-color};
+	--bs-accordion-icon-active-color: #{$active-color};
+}
+
+/// Generates styles for disabled buttons within a theme.
+/// @param {color} $primary-bg - The background color for a disabled primary button.
+/// @param {color} $primary-color - The text color for a disabled primary button.
+/// @param {color} $secondary-color - The text and border color for a disabled secondary outline button.
+@mixin disabled-button-states($primary-bg, $primary-color, $secondary-color) {
+	.btn-primary:disabled, .btn-primary.disabled {
+		background-color: #{$primary-bg};
+		border-color: #{$primary-bg};
+		color: #{$primary-color};
+	}
+	.btn-outline-secondary:disabled, .btn-outline-secondary.disabled {
+		color: #{$secondary-color};
+		border-color: #{$secondary-color};
+		background-color: transparent;
+	}
+}

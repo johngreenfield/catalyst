@@ -1,0 +1,18 @@
+// _variables.scss
+// Contains all global SCSS variables for colors, fonts, and component-specific values.
+
+// Theme-specific colors
+// These variables define the core color palette for the application's themes.
+$primary-light: #193b69;                // Primary color for light theme
+$primary-dark: #e9bf96;                 // Primary color for dark theme
+$primary-dark-text: #212529;            // Dark text for high contrast on light backgrounds
+$catalyst-danger: #c82333;              // A custom, accessible danger color
+$accessible-secondary-light: #5a646c;   // Accessible secondary text for light theme
+$accessible-secondary-dark: #b9c1c8;   // Accessible secondary text for dark theme
+
+// Component-specific variables
+// These variables are used for specific components that have different styles per theme.
+$result-container-bg-light: #f8f9fa;    // Light theme background for the results container
+$result-container-bg-dark: #2b3035;     // Dark theme background for the results container
+$result-container-border-dark: #495057; // Dark theme border for the results container
+$navbar-bg-light: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)); // Light theme navbar background

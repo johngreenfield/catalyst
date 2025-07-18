@@ -1,0 +1,89 @@
+// _themes.scss
+// Contains all theme-specific overrides for light and dark modes.
+
+/* Theme-specific overrides */
+
+// Dark Theme Styles
+[data-bs-theme=dark] {
+	// Set theme-specific secondary text color and generate primary/link color variables.
+	--bs-secondary-color: #{$accessible-secondary-dark};
+	--bs-secondary-rgb: #{red($accessible-secondary-dark)}, #{green($accessible-secondary-dark)}, #{blue($accessible-secondary-dark)};
+	@include theme-colors($primary-dark, lighten($primary-dark, 15%));
+
+	// Invert the body watermark and header logo for visibility on dark backgrounds.
+	body {
+		&::before {
+			filter: invert(100%);
+		}
+	}
+	.logo {
+		filter: invert(100%);
+	}
+
+	// Adjust result container background and border for the dark theme.
+	#result-container {
+		background-color: $result-container-bg-dark;
+		border-color: $result-container-border-dark;
+	}
+
+	// Style the theme toggle switch.
+	.form-switch .form-check-input:checked {
+		background-color: #{$primary-dark};
+		border-color: #{$primary-dark};
+	}
+	.navbar .form-switch .form-check-label {
+		color: #{$primary-dark};
+	}
+
+	// Apply dark theme button styles using the button-variant mixin.
+	.btn-primary {
+		@include button-variant($primary-dark, $primary-dark-text);
+	}
+
+	// Apply dark theme accordion styles.
+	.accordion {
+		@include accordion-variant($primary-dark, $primary-dark-text);
+	}
+
+	@include disabled-button-states($primary-dark, $primary-dark-text, $accessible-secondary-dark);
+}
+
+// Light Theme Styles
+[data-bs-theme=light] {
+	// Set theme-specific secondary text color and generate primary/link color variables.
+	--bs-secondary-color: #{$accessible-secondary-light};
+	--bs-secondary-rgb: #{red($accessible-secondary-light)}, #{green($accessible-secondary-light)}, #{blue($accessible-secondary-light)};
+	@include theme-colors($primary-light, darken($primary-light, 15%));
+
+	// Ensure the light theme navbar has a solid background.
+	// The `!important` is used to override Bootstrap's inline styles if necessary.
+	.navbar {
+		--bs-bg-opacity: 1;
+		background-color: $navbar-bg-light !important;
+	}
+
+	// Style the theme toggle switch for the light theme.
+	.form-switch .form-check-input:checked {
+		background-color: #{$primary-light};
+		border-color: #{$primary-light};
+	}
+	// Override the default focused state of the switch to use the theme's primary color.
+	.form-switch .form-check-input:focus:not(:checked) {
+		background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23{str-slice($primary-light, 2)}'/%3e%3c/svg%3e");
+	}
+	.navbar .form-switch .form-check-label {
+		color: #{$primary-light};
+	}
+
+	// Apply light theme button styles.
+	.btn-primary {
+		@include button-variant($primary-light);
+	}
+
+	// Apply light theme accordion styles.
+	.accordion {
+		@include accordion-variant($primary-light, #fff);
+	}
+
+	@include disabled-button-states($primary-light, #fff, $accessible-secondary-light);
+}
