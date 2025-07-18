@@ -1,2 +1,8 @@
 # Ignore sensitive configuration files
 api/gemini/config.php
+
+# Node dependencies
+node_modules/
+
+# Prepros configuration
+prepros.config
