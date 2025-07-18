@@ -39,6 +39,9 @@ export function updateSubmitButtonText(tool) {
         case 'time_estimator':
             buttonText = 'Estimate Time';
             break;
+        case 'decision_helper':
+            buttonText = 'Help Me Decide';
+            break;
         default:
             break;
     }
@@ -57,6 +60,7 @@ const promptPlaceholders = {
     meal_muse: 'List some ingredients you have, and I will suggest a recipe. e.g., "chicken breast, rice, broccoli, soy sauce"',
     deep_dive: 'Enter a topic you want to learn more about in a structured way. e.g., "The history of the internet."',
     time_estimator: 'Describe a task or a list of tasks to get a time estimate. e.g., "Write a blog post about AI, including research and editing."',
+    decision_helper: 'Describe a decision you need to make. e.g., "Should I accept the new job offer in another city?"',
     // Default placeholder if a tool is not in this map.
     default: 'Enter your text here...'
 };

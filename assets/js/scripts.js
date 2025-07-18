@@ -36,22 +36,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let settingsModal;
 
     /**
+     * A helper function to add the 'spoons' value to a payload.
+     */
+    const addSpoonsToPayload = (payload) => {
+        payload.spoons = document.getElementById('spoons-select').value;
+    };
+
+    /**
      * A map of tool-specific functions to modify the API payload.
      * This provides a clean, extensible way to handle tool-specific options.
      */
     const toolPayloadModifiers = {
-        formalizer: (payload) => {
-            payload.formality = document.getElementById('formalityLevel').value;
-        },
-        time_estimator: (payload) => {
-            payload.spoons = document.getElementById('spoons-select').value;
-        },
-        task_breakdown: (payload) => {
-            payload.spoons = document.getElementById('spoons-select').value;
-        },
-        meal_muse: (payload) => {
-            payload.spoons = document.getElementById('spoons-select').value;
-        },
+        formalizer: (payload) => (payload.formality = document.getElementById('formalityLevel').value),
+        time_estimator: addSpoonsToPayload,
+        task_breakdown: addSpoonsToPayload,
+        meal_muse: addSpoonsToPayload,
     };
 
     if (helpModalEl) {

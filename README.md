@@ -121,9 +121,7 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [ ] Implement the Decision Helper feature.
-- [ ] Add colour gradients to buttons and links for each theme.
-- [ ] Disable the General Assistant unless own API key provided.
+- [X] Implement the Decision Helper feature.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Plan for deployment and future scalability.
 - [ ] Gather user feedback for iterative improvements.
