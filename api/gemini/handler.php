@@ -101,6 +101,7 @@ Prioritize the To-Do list. Do not include empty categories. The user's text is i
         'formalizer' => fn() => "Rephrase the following text to be {$formality}. The rephrased text should be in {$languageName}: \"{$text}\"",
         'meal_muse' => fn() => "Considering the user has {$spoons}/3 spoons of energy, suggest a simple and easy-to-prepare recipe using these ingredients (prioritize recipes requiring less effort). Provide the recipe in {$languageName}: \"{$text}\"",
         'deep_dive' => fn() => "You are a research assistant. Provide a comprehensive 'deep dive' into the following topic. The response should be well-structured with clear headings, detailed, and easy to understand for a newcomer. Use Markdown for formatting. The user's topic is in {$languageName}: \"{$text}\"",
+        'decision_helper' => fn() => "Act as a decision-making assistant. Analyze the following decision that the user needs to make. Provide a balanced view with a 'Pros' list, a 'Cons' list, and a 'General Advice' section to help them think through the options. The user's decision is in {$languageName}: \"{$text}\"",
         'time_estimator' => function () use ($spoons, $languageName, $text) {
             $spoonFactor = max(1, 4 - $spoons); // Ensure at least a factor of 1
             return "You are a time estimator. Provide an estimated time in minutes for the following task, considering the user may have limited energy (spoons). Multiply your initial estimate by a spoon factor of {$spoonFactor}. The task is in {$languageName}: \"{$text}\"";
