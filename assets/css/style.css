@@ -125,7 +125,7 @@ header .logo {
   border-color: #b9c1c8;
   background-color: transparent;
 }
-[data-bs-theme=dark] .form-control:focus, [data-bs-theme=dark] .form-select:focus {
+[data-bs-theme=dark] .form-control:focus, [data-bs-theme=dark] .form-select:focus, [data-bs-theme=dark] .form-check-input:focus {
   border-color: var(--bs-primary);
   -webkit-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
           box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
@@ -176,7 +176,7 @@ header .logo {
   border-color: #5a646c;
   background-color: transparent;
 }
-[data-bs-theme=light] .form-control:focus, [data-bs-theme=light] .form-select:focus {
+[data-bs-theme=light] .form-control:focus, [data-bs-theme=light] .form-select:focus, [data-bs-theme=light] .form-check-input:focus {
   border-color: var(--bs-primary);
   -webkit-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
           box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
