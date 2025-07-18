@@ -122,9 +122,8 @@ Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
 - [X] Implement the Decision Helper feature.
+- [ ] Switch to npm workflow.
 - [ ] Prompt improvement and testing in AI Studio.
-- [ ] Plan for deployment and future scalability.
-- [ ] Gather user feedback for iterative improvements.
 - [ ] Add Troubleshooting section to Readme.
 
 ## Version 2
@@ -135,6 +134,8 @@ Thank you for your interest in contributing to Catalyst!
 - [ ] Look into brand-aligned names for features.
 - [ ] Add localization.
 - [ ] Explore potential for multimodal input (e.g., voice input for tasks).
+- [ ] Plan for deployment and future scalability.
+- [ ] Gather user feedback for iterative improvements.
 
 ## License
 
