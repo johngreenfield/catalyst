@@ -49,13 +49,35 @@ header .logo {
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  color: #6c757d;
+  color: var(--bs-secondary-color);
   font-style: italic;
   width: 90%;
   text-align: center;
 }
 
+/* Custom Bootstrap Component Overrides */
+.btn-danger {
+  --bs-btn-color: #fff;
+  --bs-btn-bg: #c82333;
+  --bs-btn-border-color: #c82333;
+  --bs-btn-hover-bg: #9d1b28;
+  --bs-btn-hover-border-color: #941a26;
+  --bs-btn-active-bg: #871822;
+  --bs-btn-active-border-color: #7e1620;
+  --bs-btn-focus-shadow-rgb: 200, 35, 51;
+}
+
 /* Theme-specific overrides */
+[data-bs-theme=dark] {
+  --bs-secondary-color: #b9c1c8;
+  --bs-primary: #e9bf96;
+  --bs-primary-rgb: 233, 191, 150;
+  --bs-link-color: #e9bf96;
+  --bs-link-color-rgb: 233, 191, 150;
+  --bs-link-hover-color: #f6e6d5;
+  --bs-link-hover-color-rgb: 246, 230, 213;
+  /* Override Bootstrap's css variables for .btn-primary */
+}
 [data-bs-theme=dark] body::before {
   -webkit-filter: invert(100%);
           filter: invert(100%);
@@ -68,16 +90,84 @@ header .logo {
   background-color: #2b3035;
   border-color: #495057;
 }
-[data-bs-theme=dark] #result-container.is-placeholder::before {
-  color: #adb5bd;
+[data-bs-theme=dark] .form-switch .form-check-input:checked {
+  background-color: #e9bf96;
+  border-color: #e9bf96;
 }
-[data-bs-theme=dark] .navbar .form-check-label {
-  color: rgba(255, 255, 255, 0.65);
+[data-bs-theme=dark] .navbar .form-switch .form-check-label {
+  color: #e9bf96;
+}
+[data-bs-theme=dark] .btn-primary {
+  --bs-btn-color: #212529;
+  --bs-btn-hover-color: #212529;
+  --bs-btn-active-color: #212529;
+  --bs-btn-bg: #e9bf96;
+  --bs-btn-border-color: #e9bf96;
+  --bs-btn-hover-bg: #e0a56c;
+  --bs-btn-hover-border-color: #dea063;
+  --bs-btn-active-bg: #dc9857;
+  --bs-btn-active-border-color: #da934e;
+  --bs-btn-focus-shadow-rgb: 233, 191, 150;
+}
+[data-bs-theme=dark] .accordion {
+  --bs-accordion-button-active-bg: #e9bf96;
+  --bs-accordion-button-active-color: #212529;
+  --bs-accordion-icon-active-color: #212529;
+}
+[data-bs-theme=dark] .btn-primary:disabled, [data-bs-theme=dark] .btn-primary.disabled {
+  background-color: #e9bf96;
+  border-color: #e9bf96;
+  color: #212529;
+}
+[data-bs-theme=dark] .btn-outline-secondary:disabled, [data-bs-theme=dark] .btn-outline-secondary.disabled {
+  color: #b9c1c8;
+  border-color: #b9c1c8;
+  background-color: transparent;
 }
 
+[data-bs-theme=light] {
+  --bs-secondary-color: #5a646c;
+  --bs-primary: #193b69;
+  --bs-primary-rgb: 25, 59, 105;
+  --bs-link-color: #193b69;
+  --bs-link-color-rgb: 25, 59, 105;
+  --bs-link-hover-color: #0a182b;
+  --bs-link-hover-color-rgb: 10, 24, 43;
+  /* Override Bootstrap's css variables for .btn-primary */
+}
 [data-bs-theme=light] .navbar {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+}
+[data-bs-theme=light] .form-switch .form-check-input:checked {
+  background-color: #193b69;
+  border-color: #193b69;
+}
+[data-bs-theme=light] .navbar .form-switch .form-check-label {
+  color: #193b69;
+}
+[data-bs-theme=light] .btn-primary {
+  --bs-btn-bg: #193b69;
+  --bs-btn-border-color: #193b69;
+  --bs-btn-hover-bg: #0f2440;
+  --bs-btn-hover-border-color: #0d1f38;
+  --bs-btn-active-bg: #0a182b;
+  --bs-btn-active-border-color: #081423;
+  --bs-btn-focus-shadow-rgb: 25, 59, 105;
+}
+[data-bs-theme=light] .accordion {
+  --bs-accordion-button-active-bg: #193b69;
+  --bs-accordion-button-active-color: #fff;
+  --bs-accordion-icon-active-color: #fff;
+}
+[data-bs-theme=light] .btn-primary:disabled, [data-bs-theme=light] .btn-primary.disabled {
+  background-color: #193b69;
+  border-color: #193b69;
+}
+[data-bs-theme=light] .btn-outline-secondary:disabled, [data-bs-theme=light] .btn-outline-secondary.disabled {
+  color: #5a646c;
+  border-color: #5a646c;
+  background-color: transparent;
 }
 
 /* Animated Navbar Toggler */
