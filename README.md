@@ -123,6 +123,8 @@ Thank you for your interest in contributing to Catalyst!
 ## To-Do List
 - [X] Implement the Decision Helper feature.
 - [ ] Switch to npm workflow.
+- [ ] Fix Clear btn contrast ratio issue.
+- [ ] Fix accordion chevron dark theme colour issue.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Add Troubleshooting section to Readme.
 
