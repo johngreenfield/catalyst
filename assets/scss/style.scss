@@ -89,6 +89,7 @@ header {
 /* Theme-specific overrides */
 [data-bs-theme=dark] {
 	--bs-secondary-color: #{$accessible-secondary-dark};
+	--bs-secondary-rgb: #{red($accessible-secondary-dark)}, #{green($accessible-secondary-dark)}, #{blue($accessible-secondary-dark)};
 	// Override Bootstrap's global primary and link color variables
 	--bs-primary: #{$primary-dark};
 	--bs-primary-rgb: #{red($primary-dark)}, #{green($primary-dark)}, #{blue($primary-dark)};
@@ -160,10 +161,17 @@ header {
 		border-color: #{$accessible-secondary-dark};
 		background-color: transparent;
 	}
+
+	// Ensure form controls use the themed focus ring with a direct override.
+	.form-control:focus, .form-select:focus {
+		border-color: var(--bs-primary);
+		box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+	}
 }
 
 [data-bs-theme=light] {
 	--bs-secondary-color: #{$accessible-secondary-light};
+	--bs-secondary-rgb: #{red($accessible-secondary-light)}, #{green($accessible-secondary-light)}, #{blue($accessible-secondary-light)};
 	// Override Bootstrap's global primary and link color variables
 	--bs-primary: #{$primary-light};
 	--bs-primary-rgb: #{red($primary-light)}, #{green($primary-light)}, #{blue($primary-light)};
@@ -216,6 +224,12 @@ header {
 		color: #{$accessible-secondary-light};
 		border-color: #{$accessible-secondary-light};
 		background-color: transparent;
+	}
+
+	// Ensure form controls use the themed focus ring with a direct override.
+	.form-control:focus, .form-select:focus {
+		border-color: var(--bs-primary);
+		box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 	}
 }
 
