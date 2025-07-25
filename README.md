@@ -121,7 +121,7 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [X] Implement the Decision Helper feature.
+- [ ] Update Help Modal.
 - [ ] Switch to npm workflow.
 - [ ] Fix Clear btn contrast ratio issue.
 - [ ] Fix accordion chevron dark theme colour issue.
