@@ -1,1 +1,50 @@
-{"name":"","short_name":"","icons":[{"src":"/android-chrome-192x192.png","sizes":"192x192","type":"image/png"},{"src":"/android-chrome-512x512.png","sizes":"512x512","type":"image/png"}],"theme_color":"#ffffff","background_color":"#ffffff","display":"standalone"}
+{
+    "name": "Catalyst - Your Executive Function Assistant",
+    "short_name": "Catalyst",
+    "description": "Your AI-powered executive function assistant. Simplify complex tasks, organize thoughts, understand tone & enhance productivity for neurodivergent minds.",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "background_color": "#f8f9fa",
+    "theme_color": "#2b3035",
+    "categories": [
+        "productivity",
+        "utilities",
+        "lifestyle"
+    ],
+    "shortcuts": [
+        {
+            "name": "Break Down a Task",
+            "short_name": "Task Breakdown",
+            "description": "Get smaller, manageable steps for a large task.",
+            "url": "/?tool=task_breakdown"
+        },
+        {
+            "name": "Organize Brain Dump",
+            "short_name": "Brain Dump",
+            "description": "Input a jumble of thoughts to get an organized list.",
+            "url": "/?tool=brain_dump_organizer"
+        },
+        {
+            "name": "Analyze Tone",
+            "short_name": "Tone",
+            "description": "Understand the emotional tone of your text.",
+            "url": "/?tool=tone_analysis"
+        }
+    ]
+}
