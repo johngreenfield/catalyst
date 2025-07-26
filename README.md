@@ -36,7 +36,7 @@ Catalyst currently offers the following features:
 
 - **Time Estimator:** Feeling unsure how to fit your tasks into your day? The Time Estimator helps you build a realistic schedule. Provide it with a list of tasks, and it will provide time estimates and help you organize them into a manageable plan. This reduces the mental load of planning and helps you approach your day with confidence.
 
-- **Decision Helper (Coming Soon):** Navigate tricky choices with ease. Present your dilemma, and Catalyst will assist you in clarifying options, outlining benefits and drawbacks, and structuring your decision-making process. Gain the clarity needed to choose confidently and avoid procrastination.
+- **Decision Helper:** Navigate tricky choices with ease. Present your dilemma, and Catalyst will assist you in clarifying options, outlining benefits and drawbacks, and structuring your decision-making process. Gain the clarity needed to choose confidently and avoid procrastination.
 
 Version 2 will be rebuilt from the ground up to include brand new functionality and the ability to converse back and forth.
 
