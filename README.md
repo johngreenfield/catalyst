@@ -125,6 +125,7 @@ Thank you for your interest in contributing to Catalyst!
 - [X] Switch to npm workflow.
 - [ ] Fix Clear btn contrast ratio issue.
 - [ ] Fix accordion chevron dark theme colour issue.
+- [ ] Review Manifest and improve to reach Richer PWA standards.
 - [ ] Consider locking down certain features unless own API key is used for the demo.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Add Troubleshooting section to Readme.
