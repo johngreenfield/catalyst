@@ -46,5 +46,20 @@
             "description": "Understand the emotional tone of your text.",
             "url": "/?tool=tone_analysis"
         }
+    ],
+    "screenshots": [
+        {
+            "src": "/assets/img/screenshot-narrow.png",
+            "sizes": "1082x2402",
+            "type": "image/png",
+            "label": "Catalyst running on a mobile device"
+        },
+        {
+            "src": "/assets/img/screenshot-wide.png",
+            "sizes": "1920x1080",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Catalyst running on a desktop device"
+        }
     ]
 }

@@ -44,9 +44,11 @@ Catalyst is built with a secure client-server architecture, ensuring your Gemini
 
 ## Demo
 
+A live demo is available at: **[catalystassist.io](https://catalystassist.io/)**
+
 Here is a quick look at the Catalyst user interface:
 
-![Catalyst Screenshot](./assets/img/screenshot.png)
+![Catalyst Screenshot](./assets/img/screenshot-wide.png)
 
 ## Built With
 
@@ -66,7 +68,7 @@ This project is built with a combination of modern and robust technologies:
 
 ## Installation
 
-Follow these steps to set up the Catalyst project on your local machine. This guide assumes you have a local web server environment like [Laragon](https://laragon.org/), XAMPP, or WAMP installed, which includes PHP.
+Follow these steps to set up the Catalyst project on your local machine. This guide assumes you have a local web server environment like [Laragon](https://laragon.org/), XAMPP, or WAMP installed, which includes PHP. You will also need [Node.js](https://nodejs.org/) and npm installed to manage frontend dependencies.
 
 1.  **Clone the Repository**
 
@@ -77,7 +79,15 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
     cd catalyst
     ```
 
-2.  **Configure Your API Key**
+2.  **Install Dependencies**
+
+    Install the required Node.js modules using npm:
+
+    ```bash
+    npm install
+    ```
+
+3.  **Configure Your API Key**
 
     To use the application, you must provide your own Google Gemini API key. You can obtain a free key from [Google AI Studio](https://aistudio.google.com/).
 
@@ -91,7 +101,7 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
     ```
     **Important:** Ensure that `api/config.php` is listed in your `.gitignore` file to prevent your secret API key from being committed to version control.
 
-3.  **Run the Application**
+4.  **Run the Application**
 
     - Ensure your local web server (e.g., Apache) is running.
     - Access the project in your web browser. The URL will depend on your local server setup (e.g., `http://catalyst.test` if using Laragon's automatic virtual hosts, or `http://localhost/catalyst`).
