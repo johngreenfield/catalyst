@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Catalyst - Offline</title>
+    <meta name="theme-color" content="#2b3035">
+    <!-- 
+      Minimal, self-contained styles for the offline page.
+      This avoids dependencies on external stylesheets that might not be cached.
+    -->
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            text-align: center;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 600px;
+        }
+        img {
+            max-width: 100px;
+            margin-bottom: 1.5rem;
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="/assets/img/icon.png" alt="Catalyst Logo">
+        <h1>You're Currently Offline</h1>
+        <p>The content you're trying to access isn't available without an internet connection. Please check your network and try again.</p>
+    </div>
+</body>
+</html>

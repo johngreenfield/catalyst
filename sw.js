@@ -1,77 +1,120 @@
-const CACHE_NAME = 'catalyst-cache-v2';
-let urlsToCache = [
+const CACHE_NAME = 'catalyst-cache-v4'; // Increment cache version for new assets
+const OFFLINE_URL = '/offline.html';
+
+const urlsToCache = [
+  // Core files
   '/',
   '/index.html',
+  OFFLINE_URL,
+  '/site.webmanifest',
+
+  // Scripts - Corrected app.js to scripts.js and added vendor libraries
+  '/assets/js/scripts.js',
+  '/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+  '/node_modules/marked/lib/marked.umd.js',
+  '/node_modules/dompurify/dist/purify.min.js',
+
+  // Styles - Added vendor stylesheets and the crucial icon font file
   '/assets/css/style.css',
-  '/assets/js/app.js',
+  '/node_modules/bootstrap/dist/css/bootstrap.min.css',
+  '/node_modules/bootstrap-icons/font/bootstrap-icons.min.css',
+  '/node_modules/bootstrap-icons/font/fonts/bootstrap-icons.woff2',
+
+  // Images & Icons - Added main logo and manifest icons
   '/assets/img/icon.png',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js',
-  'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css',
-  // TODO: For full offline support, you should download the bootstrap-icons font files (woff2) 
-  // and serve them locally, then add their paths to this cache list.
-    '/site.webmanifest',
+  '/assets/img/full_logo.png',
+  '/apple-touch-icon.png',
   '/favicon-32x32.png',
   '/favicon-16x16.png',
-  '/apple-touch-icon.png'
+  '/android-chrome-192x192.png',
+  '/android-chrome-512x512.png'
 ];
-
-// Critical resources to be cached with Cache-First strategy
-const criticalResources = ['/index.html', '/assets/js/app.js'];
 
 // Install event: opens the cache and adds the app shell files to it.
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      console.log('Opened cache');
+      await cache.addAll(urlsToCache);
+      // Force the waiting service worker to become the active service worker.
+      await self.skipWaiting();
+    })()
   );
-});
-
-// Fetch event: serves requests from the cache first if available.
-// This uses a "Stale-While-Revalidate" strategy for cached assets.
-self.addEventListener('fetch', event => {
-    const url = new URL(event.request.url);
-    
-    // Cache-First strategy for critical resources
-    if (criticalResources.includes(url.pathname)) {
-        event.respondWith(
-            caches.match(event.request).then(response => {
-                // Return cached version if available, otherwise fetch from network
-                return response || fetch(event.request);
-            })
-        );
-    } else {
-        // Stale-While-Revalidate for other assets
-        event.respondWith(
-            caches.open(CACHE_NAME).then(cache => {
-                return cache.match(event.request).then(response => {
-                    // Fetch the latest version from the network in the background.
-                    const fetchPromise = fetch(event.request).then(networkResponse => {
-                        // If we get a valid response, update the cache.
-                        if (networkResponse && networkResponse.status === 200) {
-                            cache.put(event.request, networkResponse.clone());
-                        }
-                        return networkResponse;
-                    });
-
-                    // Return the cached version immediately if available, otherwise wait for the network.
-                    return response || fetchPromise;
-                });
-            })
-        );
-    }
 });
 
 // Activate event: cleans up old caches.
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames => {
-      return Promise.all(
+    (async () => {
+      // Enable navigation preload if it's supported.
+      // https://developers.google.com/web/updates/2017/02/navigation-preload
+      if ('navigationPreload' in self.registration) {
+        await self.registration.navigationPreload.enable();
+      }
+
+      // Clean up old caches
+      const cacheNames = await caches.keys();
+      await Promise.all(
         cacheNames.filter(cacheName => cacheName !== CACHE_NAME).map(cacheName => caches.delete(cacheName))
       );
-    })
+
+      // Take control of all clients as soon as the SW is activated.
+      await self.clients.claim();
+    })()
+  );
+});
+
+// Fetch event: handles requests and serves assets from cache.
+self.addEventListener('fetch', event => {
+  // We only want to handle GET requests.
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // For navigation requests, use a network-first strategy.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      (async () => {
+        try {
+          // First, try to use the navigation preload response if it's supported.
+          const preloadResponse = await event.preloadResponse;
+          if (preloadResponse) {
+            return preloadResponse;
+          }
+
+          // Always try the network first for navigation.
+          const networkResponse = await fetch(event.request);
+          return networkResponse;
+        } catch (error) {
+          // The network failed, serve from cache or the offline page.
+          console.log('Fetch failed; returning offline page instead.', error);
+
+          const cache = await caches.open(CACHE_NAME);
+          const cachedResponse = await cache.match(event.request.url);
+          return cachedResponse || cache.match(OFFLINE_URL);
+        }
+      })()
+    );
+    return;
+  }
+
+  // For other requests (CSS, JS, images), use a stale-while-revalidate strategy.
+  event.respondWith(
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      const cachedResponse = await cache.match(event.request);
+
+      // Fetch from network in the background to update the cache.
+      const fetchPromise = fetch(event.request).then(networkResponse => {
+        if (networkResponse && networkResponse.status === 200) {
+          cache.put(event.request, networkResponse.clone());
+        }
+        return networkResponse;
+      });
+
+      // Return cached response if available, otherwise wait for network.
+      return cachedResponse || fetchPromise;
+    })()
   );
 });
