@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         task_breakdown: addSpoonsToPayload,
         meal_muse: addSpoonsToPayload,
         routine_builder: addSpoonsToPayload,
+        social_script_helper: addSpoonsToPayload,
     };
 
     if (helpModalEl) {
@@ -155,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('change', (event) => {
         if (event.target === toolSelector) {
             const selectedTool = toolSelector.value; // Read the current value here
-            const isSpoonsApplicable = ['time_estimator', 'task_breakdown', 'meal_muse'].includes(selectedTool);            
+            const isSpoonsApplicable = ['time_estimator', 'task_breakdown', 'meal_muse', 'routine_builder', 'social_script_helper'].includes(selectedTool);            
             const isFormalizer = selectedTool === 'formalizer';
 
             switch (selectedTool) {
@@ -167,6 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'task_breakdown':
                 case 'meal_muse':
                 case 'routine_builder':
+                case 'social_script_helper':
                     spoonsOptions.style.display = 'block';
                     formalizerOptions.style.display = 'none';
                     break;

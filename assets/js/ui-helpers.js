@@ -45,6 +45,9 @@ export function updateSubmitButtonText(tool) {
         case 'routine_builder':
             buttonText = 'Build Routine';
             break;
+        case 'social_script_helper':
+            buttonText = 'Generate Script';
+            break;
         default:
             break;
     }
@@ -65,6 +68,7 @@ const promptPlaceholders = {
     time_estimator: 'Describe a task or a list of tasks to get a time estimate. e.g., "Write a blog post about AI, including research and editing."',
     decision_helper: 'Describe a decision you need to make. e.g., "Should I accept the new job offer in another city?"',
     routine_builder: 'Describe a routine you want to build. e.g., "A 30-minute morning routine to start the day calmly."',
+    social_script_helper: 'Describe a social situation you need help with. e.g., "I need to make a phone call to my doctor to book an appointment."',
     // Default placeholder if a tool is not in this map.
     default: 'Enter your text here...'
 };

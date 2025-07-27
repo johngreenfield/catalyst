@@ -40,6 +40,8 @@ Catalyst currently offers the following features:
 
 - **Routine Builder:** Create structured daily or weekly routines with ease. Describe a goal, like a "stress-free morning," and Catalyst will generate a logical, step-by-step checklist tailored to your available time and energy, helping you build consistent habits.
 
+- **Social Script Helper:** Generates simple scripts and talking points for navigating common social situations that can cause anxiety. Describe a situation, and Catalyst provides clear, easy-to-follow prompts to help you feel prepared and confident.
+
 Version 2 of Catalyst will be rebuilt from the ground up to include brand new functionality and the ability to converse back and forth.
 
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
@@ -133,12 +135,8 @@ If you have an idea for a new feature or an improvement, please open an issue to
 Thank you for your interest in contributing to Catalyst!
 
 ## To-Do List
-- [X] Update Help Modal.
-- [X] Switch to npm workflow.
 - [ ] Fix Clear btn contrast ratio issue.
 - [ ] Fix accordion chevron dark theme colour issue.
-- [ ] Review Manifest and improve to reach Richer PWA standards.
-- [ ] Consider locking down certain features unless own API key is used for the demo.
 - [ ] Prompt improvement and testing in AI Studio.
 - [ ] Add Troubleshooting section to Readme.
 

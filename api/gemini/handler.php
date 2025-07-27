@@ -106,7 +106,8 @@ Prioritize the To-Do list. Do not include empty categories. The user's text is i
             $spoonFactor = max(1, 4 - $spoons); // Ensure at least a factor of 1
             return "You are a time estimator. Provide an estimated time in minutes for the following task, considering the user may have limited energy (spoons). Multiply your initial estimate by a spoon factor of {$spoonFactor}. The task is in {$languageName}: \"{$text}\"";
         },
-        'routine_builder' => fn() => "You are a routine builder. Create a step-by-step routine for the following goal, considering the user has {$spoons}/3 spoons of energy. The routine should be logical, easy to follow, and broken into clear steps with timings. The user's goal is in {$languageName}: \"{$text}\""
+        'routine_builder' => fn() => "You are a routine builder. Create a step-by-step routine for the following goal, considering the user has {$spoons}/3 spoons of energy. The routine should be logical, easy to follow, and broken into clear steps with timings. The user's goal is in {$languageName}: \"{$text}\"",
+        'social_script_helper' => fn() => "You are a social interaction assistant. Generate a simple script with talking points for the following social situation. The user has {$spoons}/3 spoons of energy, so adjust the complexity and length of the script accordingly (fewer spoons = simpler, more direct script). Provide the script in {$languageName}: \"{$text}\""
     ];
 
     if (!isset($promptBuilders[$tool])) {
