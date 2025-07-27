@@ -42,6 +42,9 @@ export function updateSubmitButtonText(tool) {
         case 'decision_helper':
             buttonText = 'Help Me Decide';
             break;
+        case 'routine_builder':
+            buttonText = 'Build Routine';
+            break;
         default:
             break;
     }
@@ -61,6 +64,7 @@ const promptPlaceholders = {
     deep_dive: 'Enter a topic you want to learn more about in a structured way. e.g., "The history of the internet."',
     time_estimator: 'Describe a task or a list of tasks to get a time estimate. e.g., "Write a blog post about AI, including research and editing."',
     decision_helper: 'Describe a decision you need to make. e.g., "Should I accept the new job offer in another city?"',
+    routine_builder: 'Describe a routine you want to build. e.g., "A 30-minute morning routine to start the day calmly."',
     // Default placeholder if a tool is not in this map.
     default: 'Enter your text here...'
 };

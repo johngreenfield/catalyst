@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
         time_estimator: addSpoonsToPayload,
         task_breakdown: addSpoonsToPayload,
         meal_muse: addSpoonsToPayload,
+        routine_builder: addSpoonsToPayload,
     };
 
     if (helpModalEl) {
@@ -165,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'time_estimator':
                 case 'task_breakdown':
                 case 'meal_muse':
+                case 'routine_builder':
                     spoonsOptions.style.display = 'block';
                     formalizerOptions.style.display = 'none';
                     break;

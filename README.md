@@ -38,7 +38,9 @@ Catalyst currently offers the following features:
 
 - **Decision Helper:** Navigate tricky choices with ease. Present your dilemma, and Catalyst will assist you in clarifying options, outlining benefits and drawbacks, and structuring your decision-making process. Gain the clarity needed to choose confidently and avoid procrastination.
 
-Version 2 will be rebuilt from the ground up to include brand new functionality and the ability to converse back and forth.
+- **Routine Builder:** Create structured daily or weekly routines with ease. Describe a goal, like a "stress-free morning," and Catalyst will generate a logical, step-by-step checklist tailored to your available time and energy, helping you build consistent habits.
+
+Version 2 of Catalyst will be rebuilt from the ground up to include brand new functionality and the ability to converse back and forth.
 
 Catalyst is built with a secure client-server architecture, ensuring your Gemini API key remains protected on the server-side. The user-friendly frontend is crafted with HTML, CSS, and JavaScript, while the robust backend securely manages communication with the Gemini API.
 
