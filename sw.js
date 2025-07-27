@@ -1,4 +1,4 @@
-const CACHE_NAME = 'catalyst-cache-v4'; // Increment cache version for new assets
+const CACHE_NAME = 'catalyst-cache-v5'; // Increment cache version for new assets
 const OFFLINE_URL = '/offline.html';
 
 const urlsToCache = [
