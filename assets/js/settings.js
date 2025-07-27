@@ -23,13 +23,40 @@ export function initializeSettings(settingsModal) {
     const languagePreference = document.getElementById('languagePreference');
     const typingEffectToggle = document.getElementById('typingEffectToggle');
 
+    /**
+     * Enables or disables the AI model selector based on the presence of an API key.
+     */
+    const updateModelSelectorState = () => {
+        if (modelSelector && apiKeyInput) {
+            const hasApiKey = apiKeyInput.value.trim() !== '';
+            modelSelector.disabled = !hasApiKey;
+
+            // Add a tooltip to explain why it's disabled
+            if (!hasApiKey) {
+                modelSelector.setAttribute('title', 'Enter an API key to change the model.');
+            } else {
+                modelSelector.removeAttribute('title');
+            }
+        }
+    };
+
     // Populates the settings modal with values from localStorage.
     const loadSettings = () => {
+        const hasSessionApiKey = sessionApiKey.trim() !== '';
+
         if (apiKeyInput) {
             apiKeyInput.value = sessionApiKey;
         }
         if (modelSelector) {
-            modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+            if (hasSessionApiKey) {
+                // If a key is present, load the user's preferred model from localStorage.
+                modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+            } else {
+                // If no key is present, reset to the default model and update localStorage to match.
+                const defaultModel = 'gemini-2.5-flash-lite-preview';
+                modelSelector.value = defaultModel;
+                localStorage.setItem('model', defaultModel);
+            }
         }
         if (languagePreference) {
             const savedLang = localStorage.getItem('language');
@@ -39,6 +66,7 @@ export function initializeSettings(settingsModal) {
             // Default to 'true' (enabled) if not set.
             typingEffectToggle.checked = localStorage.getItem('typingEffectEnabled') !== 'false';
         }
+        updateModelSelectorState();
     };
 
     // Saves the current values from the settings modal to localStorage.
@@ -68,6 +96,10 @@ export function initializeSettings(settingsModal) {
 
     if (saveSettingsButton) {
         saveSettingsButton.addEventListener('click', saveSettings);
+    }
+
+    if (apiKeyInput) {
+        apiKeyInput.addEventListener('input', updateModelSelectorState);
     }
 
     if (toggleApiKeyVisibilityButton && apiKeyInput) {
