@@ -85,7 +85,7 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
 
 2.  **Install Dependencies**
 
-    Install the required Node.js modules using npm:
+    Install the required Node.js modules using npm *(Node.js version 20 or above required)*:
 
     ```bash
     npm install
@@ -103,7 +103,6 @@ Follow these steps to set up the Catalyst project on your local machine. This gu
     // Gemini API Configuration
     define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY');
     ```
-    **Important:** Ensure that `api/config.php` is listed in your `.gitignore` file to prevent your secret API key from being committed to version control.
 
 4.  **Run the Application**
 

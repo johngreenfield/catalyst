@@ -7,8 +7,8 @@
 // To use the application, copy this file to 'config.php' and fill in your actual API key.
 // The real 'config.php' is ignored by Git to keep your secrets safe.
 
-// The base URL for the Google Gemini API.
+// Base URL for the Google Gemini API.
 define('GEMINI_API_URL', 'https://generativelanguage.googleapis.com/v1beta/models');
 
-// Fallback API Key.
+// Gemini API Key.
 define('GEMINI_API_KEY', 'YOUR_GEMINI_API_KEY_HERE');
