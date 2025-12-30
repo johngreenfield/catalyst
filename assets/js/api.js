@@ -140,7 +140,7 @@ export async function processPrompt(payload) {
 
     try {
         // --- 1. Prepare API Request ---
-        const model = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+        const model = localStorage.getItem('model') || 'gemini-2.5-flash-lite';
         const language = localStorage.getItem('language') || 'en-GB';
         payload.model = model;
         payload.language = language;

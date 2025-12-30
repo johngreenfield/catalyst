@@ -61,8 +61,8 @@ try {
 
     // --- Strict Input Validation ---
     // Validate 'model' against an allowlist
-    $allowed_models = ['gemini-2.5-flash-lite-preview', 'gemini-2.5-flash'];
-    $model = in_array($input['model'] ?? '', $allowed_models) ? $input['model'] : 'gemini-2.5-flash-lite-preview';
+    $allowed_models = ['gemini-2.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.5-pro'];
+    $model = in_array($input['model'] ?? '', $allowed_models) ? $input['model'] : 'gemini-2.5-flash-lite';
 
     // Validate 'language' against an allowlist
     $allowed_languages = ['en-GB', 'en-US'];
@@ -132,11 +132,8 @@ EOT;
     $prompt = $systemInstruction . "\n\n---\n\nUser Prompt:\n" . $prompt;
 
     // --- API Call and Response ---
-    // Append snapshot date from config only if it's defined and the model is the specific preview version.
-    $fullModelName = (defined('MODEL_SNAPSHOT_DATE') && $model === 'gemini-2.5-flash-lite-preview') ? $model . MODEL_SNAPSHOT_DATE : $model;
-    
     // Pass the determined API key and model to the helper function.
-    $responseData = callGeminiApi($prompt, $apiKey, $fullModelName);
+    $responseData = callGeminiApi($prompt, $apiKey, $model);
 
     $generatedText = $responseData['candidates'][0]['content']['parts'][0]['text'] ?? 'Could not extract a valid response from the API result.';
 

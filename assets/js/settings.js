@@ -50,10 +50,10 @@ export function initializeSettings(settingsModal) {
         if (modelSelector) {
             if (hasSessionApiKey) {
                 // If a key is present, load the user's preferred model from localStorage.
-                modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite-preview';
+                modelSelector.value = localStorage.getItem('model') || 'gemini-2.5-flash-lite';
             } else {
                 // If no key is present, reset to the default model and update localStorage to match.
-                const defaultModel = 'gemini-2.5-flash-lite-preview';
+                const defaultModel = 'gemini-2.5-flash-lite';
                 modelSelector.value = defaultModel;
                 localStorage.setItem('model', defaultModel);
             }
